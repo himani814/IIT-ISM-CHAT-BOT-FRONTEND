@@ -198,7 +198,9 @@
     display: flex;flex-direction: column;
     justify-content: center;align-items: center;gap: 10px;
   }
-/* Responsive Media Query */
+
+
+  
 @media (max-width: 600px) {
   .chat-screen {
     width: 100vw;
