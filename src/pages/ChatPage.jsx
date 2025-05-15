@@ -114,7 +114,7 @@ const WelcomeScreen = () => {
           </button>
           <input
             type="text"
-            placeholder="Type your message here..."
+            placeholder="Ask me about IIT (ISM) DHANBAD"
             className="chat-input"
             value={inputMessage}
             onChange={handleInputChange}
