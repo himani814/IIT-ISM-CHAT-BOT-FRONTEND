@@ -57,7 +57,6 @@ const WelcomeScreen = () => {
 
   return (
     <div className="chat-main-div">
-
       <div className="chat-page-back-button" onClick={() => navigate("/")}>
         <IoIosArrowBack size={30} color="white" />
       </div>
@@ -72,9 +71,8 @@ const WelcomeScreen = () => {
               <div className="icon-circle"></div>
               <h1 className="title">How can I help you today?</h1>
               <p className="description">
-                This code will display a greeting message asking the user for
-                their name, and then it will display a greeting message with the
-                name entered by the user.
+                Hi, I am the IIT ISM ChatBot. Ask me anything about academics,
+                campus life, facilities, and more.
               </p>
             </div>
           </div>
