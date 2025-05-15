@@ -63,7 +63,7 @@ const WelcomeScreen = () => {
       </div>
 
       <div className="chat-screen">
-        {messages.length === 1 && messages[0].type === "bot" && (
+        {
           <div className="chat-screen-init">
             <div className="chat-img">
               <img src={logo} alt="Logo" />
@@ -78,7 +78,7 @@ const WelcomeScreen = () => {
               </p>
             </div>
           </div>
-        )}
+        }
 
         <div
           className="chat-messages"
