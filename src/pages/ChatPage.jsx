@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/chat.css";
+import "../styles/ChatPage.css";
 import { AiOutlineSend } from "react-icons/ai";
 import { MdAttachFile } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
@@ -57,13 +57,14 @@ const WelcomeScreen = () => {
 
   return (
     <div className="chat-main-div">
+
       <div className="chat-page-back-button" onClick={() => navigate("/")}>
         <IoIosArrowBack size={30} color="white" />
       </div>
 
       <div className="chat-screen">
         {messages.length === 1 && messages[0].type === "bot" && (
-          <>
+          <div className="chat-screen-init">
             <div className="chat-img">
               <img src={logo} alt="Logo" />
             </div>
@@ -76,7 +77,7 @@ const WelcomeScreen = () => {
                 name entered by the user.
               </p>
             </div>
-          </>
+          </div>
         )}
 
         <div
