@@ -10,7 +10,7 @@ const useChatApi = () => {
     setError(null);
 
     try {
-      const response = await axios.post('https://chat-bot-iit-ism-backend.vercel.app/chat', { query });
+      const response = await axios.post('https://bckd.onrender.com/testing', { "message": query });
 
       return response.data.response;
     } catch (err) {
