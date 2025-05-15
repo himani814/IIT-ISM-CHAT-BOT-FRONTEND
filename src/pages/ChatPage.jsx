@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/ChatPage.css";
+import "../styles/chatPage.css";
 import { AiOutlineSend } from "react-icons/ai";
 import { MdAttachFile } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
