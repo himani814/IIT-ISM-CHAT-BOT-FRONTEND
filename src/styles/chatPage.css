@@ -202,9 +202,17 @@
 
   /* hi */
 @media (max-width: 600px) {
+  .chat-main-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
   .chat-screen {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     border-radius: 0;
     padding: 6px;
   }
