@@ -67,8 +67,8 @@ function Home() {
   const handleLoginClick = () => {
     account.createOAuth2Session(
       "google",
-      "http://localhost:5173/",
-      "http://localhost:5173/fail"
+      "https://chat-bot-iit-ism-frontend-dbwo.vercel.app",
+      "https://chat-bot-iit-ism-frontend-dbwo.vercel.app"
     );
   };
 
