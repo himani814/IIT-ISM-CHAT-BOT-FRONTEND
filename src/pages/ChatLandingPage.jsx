@@ -30,17 +30,66 @@ function Home() {
     "Your Smart, Friendly Chat Companion",
     "Always Ready. Always Helpful.",
     "Making ISM Life Easier for You 💙",
-    // (Sequence repeated as in your original code)
+    "ISM Buddy 🤖",
+    "Your Personal Assistant at IIT Dhanbad",
+    "Guiding You Through Campus Life",
+    "Ask Me About Academics & Clubs",
+    "Ready to Answer All Your ISM Questions",
+    "Helping You Stay on Top of Deadlines 📅",
+    "Your Go-To for Course and Hostel Info",
+    "Bringing You the Latest Campus Updates",
+    "Your Smart, Friendly Chat Companion",
+    "Always Ready. Always Helpful.",
+    "Making ISM Life Easier for You 💙",
+    "ISM Buddy 🤖",
+    "Your Personal Assistant at IIT Dhanbad",
+    "Guiding You Through Campus Life",
+    "Ask Me About Academics & Clubs",
+    "Ready to Answer All Your ISM Questions",
+    "Helping You Stay on Top of Deadlines 📅",
+    "Your Go-To for Course and Hostel Info",
+    "Bringing You the Latest Campus Updates",
+    "Your Smart, Friendly Chat Companion",
+    "Always Ready. Always Helpful.",
+    "Making ISM Life Easier for You 💙",
+    "ISM Buddy 🤖",
+    "Your Personal Assistant at IIT Dhanbad",
+    "Guiding You Through Campus Life",
+    "Ask Me About Academics & Clubs",
+    "Ready to Answer All Your ISM Questions",
+    "Helping You Stay on Top of Deadlines 📅",
+    "Your Go-To for Course and Hostel Info",
+    "Bringing You the Latest Campus Updates",
+    "Your Smart, Friendly Chat Companion",
+    "Always Ready. Always Helpful.",
+    "Making ISM Life Easier for You 💙",
+    "ISM Buddy 🤖",
+    "Your Personal Assistant at IIT Dhanbad",
+    "Guiding You Through Campus Life",
+    "Ask Me About Academics & Clubs",
+    "Ready to Answer All Your ISM Questions",
+    "Helping You Stay on Top of Deadlines 📅",
+    "Your Go-To for Course and Hostel Info",
+    "Bringing You the Latest Campus Updates",
+    "Your Smart, Friendly Chat Companion",
+    "Always Ready. Always Helpful.",
+    "Making ISM Life Easier for You 💙",
   ];
 
-  // Local state for logged in user name
   const [userName, setUserName] = useState(null);
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
+  );
+
+  useEffect(() => {
+    document.body.className = theme;
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     account
       .get()
       .then((res) => {
-        // Check if email ends with @iitism.ac.in
         if (res.email && res.email.endsWith("@iitism.ac.in")) {
           Cookies.set("userId", res.$id, { expires: 7 });
           Cookies.set("userName", res.name, { expires: 7 });
@@ -49,7 +98,6 @@ function Home() {
           console.log("Logged in user data stored in cookies");
         } else {
           alert("Please login with your IIT ISM email (@iitism.ac.in) only.");
-          // Logout user immediately or redirect
           account.deleteSession("current").then(() => {
             setUserName(null);
             Cookies.remove("userId");
@@ -88,6 +136,7 @@ function Home() {
   };
 
   const handleChatClick = () => navigate("/chat");
+
   const handleLinkedInClick = () =>
     window.open("https://www.linkedin.com/in/shubham-das-22je0936", "_blank");
   const handleInstaClick = () =>
@@ -98,7 +147,7 @@ function Home() {
   return (
     <>
       <NavBar />
-      <div className="home">
+      <div className={`home ${theme}`}>
         <div className="home-left">
           <div className="home-left-1">
             Hi, it's <p>ISM BUDDY</p>
@@ -139,30 +188,46 @@ function Home() {
             />
           </div>
 
+          {userName && (
+            <div className="home-left-5-n">
+              <div className="home-left-5-2-n">Welcome, {userName}</div>
+            </div>
+          )}
           <div className="home-left-5">
             <div className="home-left-5-1" onClick={handleChatClick}>
               CHAT WITH ME
             </div>
 
             {userName ? (
-              <>
-                <div className="home-left-5-1" onClick={handleLogoutClick}>
-                  LOG OUT
-                </div>
-              </>
+              <div className="home-left-5-1" onClick={handleLogoutClick}>
+                LOG OUT
+              </div>
             ) : (
               <div className="home-left-5-2" onClick={handleLoginClick}>
                 LOGIN
               </div>
             )}
           </div>
-          {userName && (
-            <div className="home-left-5">
-              <>
-                <div className="home-left-5-2">Welcome, {userName}</div>
-              </>
-            </div>
-          )}
+
+          <div className="home-left-br">
+            {theme === "dark" ? (
+              <div
+                className={`home-left-5-br ${
+                  theme === "light" ? "active" : ""
+                }`}
+                onClick={() => setTheme("light")}
+              >
+                WHITE MODE
+              </div>
+            ) : (
+              <div
+                className={`home-left-5-br ${theme === "dark" ? "active" : ""}`}
+                onClick={() => setTheme("dark")}
+              >
+                DARK MODE
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="home-right">

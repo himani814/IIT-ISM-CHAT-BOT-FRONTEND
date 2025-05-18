@@ -1,3 +1,14 @@
+
+.dark{
+  background-color: rgb(20, 19, 19);;
+  color: white;
+}
+.white{
+  background-color: rgb(20, 19, 19);;
+  color: white;
+}
+
+
 .home {
   min-height: calc(100vh - 70px);
   max-width: 100vw;
@@ -5,7 +16,6 @@
   justify-content: center;
   align-items: center;
   gap: 50px;
-  color: white;
   padding: 20px 50px;
   flex-wrap: wrap; /* Ensure elements wrap on smaller screens */
 }
@@ -49,13 +59,13 @@
 .home-left-3 {
   margin-top: 20px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.829);
 }
 
 .home-left-4 {
   display: flex;
   gap: 10px;
   margin-top: 20px;
+  margin-bottom: 20px;
   color: cyan;
 }
 
@@ -63,17 +73,34 @@
   font-size: 2rem;
 }
 
+
+
+.home-left-5-n {
+  display: flex;
+  gap: 10px;
+
+  margin-bottom: 5px;
+}
+.home-left-5-2-n{
+  padding: 10px 20px;
+  border: 2px solid rgba(0, 248, 248, 1);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+
+
+
 .home-left-5 {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
 }
 
 .home-left-5-1,
 .home-left-5-2 {
   padding: 10px 20px;
   border: 2px solid rgba(0, 248, 248, 1);
-  border-radius: 20px;
+  border-radius: 15px;
   cursor: pointer;
 }
 
@@ -83,6 +110,26 @@
   background-color: cyan;
   box-shadow: 10px 10px 70px rgba(0, 248, 248, 1), 0px 0px 0px rgba(72, 229, 229, 0.3), 0px 0px 0px rgba(0, 248, 248, 1);
 }
+.home-left-br {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.home-left-5-br{
+  padding: 10px 20px;
+  border: 2px solid rgba(0, 248, 248, 1);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.home-left-5-br:hover{
+  color: black;
+  background-color: cyan;
+  box-shadow: 10px 10px 70px rgba(0, 248, 248, 1), 0px 0px 0px rgba(72, 229, 229, 0.3), 0px 0px 0px rgba(0, 248, 248, 1);
+}
+
+
 
 .home-right {
   border: 1px solid rgb(17, 244, 237);
