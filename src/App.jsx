@@ -1,5 +1,6 @@
 import Index from './pages/ChatLandingPage.jsx';
 import Chat from './pages/ChatPage.jsx';
+import Admin from './pages/AdminPage.jsx';
 import PrivateRoute from './secure/privateRoute.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -15,6 +16,12 @@ const App = () => {
               <PrivateRoute>
                 <Chat />
               </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <Admin/>
             }
           />
         </Routes>
