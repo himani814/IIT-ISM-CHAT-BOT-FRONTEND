@@ -4,12 +4,13 @@ import {
   storeFileMeta,
   fetchAllFiles,
   deleteFileMeta,
-} from "../../appwrite/appwriteUploadPdf.js"; // Import Appwrite functions
+} from "../../appwrite/appwriteUploadPdf.js";
 import "../styles/adminPage.css";
 
 const PDFManager = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
+  const [fileType, setFileType] = useState("pdf"); // "pdf" or "text"
   const [status, setStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,21 +34,19 @@ const PDFManager = () => {
     setStatus("⏳ Uploading...");
 
     try {
-      // Upload file to backend (Pinecone + file storage)
-      const response = await axios.post(
-        "https://bckd.onrender.com/upload/upload",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const uploadUrl =
+        fileType === "pdf"
+          ? "https://bckd.onrender.com/upload/pdf"
+          : "https://bckd.onrender.com/upload/text";
+
+      const response = await axios.post(uploadUrl, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       const max_id = response.data.max_id || 0;
 
-      // Save metadata to Appwrite
       const metaResponse = await storeFileMeta(name, max_id);
 
-      // Add documentId to state for delete use
       setUploadedFiles((prev) => [
         ...prev,
         { name, max_id, docId: metaResponse.$id },
@@ -65,21 +64,17 @@ const PDFManager = () => {
 
   const handleDelete = async (name, max_id) => {
     try {
-      // First delete from backend (Pinecone)
       await axios.post("https://bckd.onrender.com/delete/", {
-        name:`${name}_0`,
+        name: `${name}_0`,
         max_id: parseInt(max_id),
       });
 
-      // Find the documentId of the file metadata in uploadedFiles
       const fileToDelete = uploadedFiles.find((f) => f.name === name);
 
       if (fileToDelete?.docId) {
-        // Then delete from Appwrite database
         await deleteFileMeta(fileToDelete.docId);
       }
 
-      // Update UI after deletion
       setUploadedFiles((prev) => prev.filter((f) => f.name !== name));
       setStatus("🗑️ File deleted from backend and database.");
     } catch (error) {
@@ -88,12 +83,10 @@ const PDFManager = () => {
     }
   };
 
-  // Load files from Appwrite on component mount
   useEffect(() => {
     const loadFiles = async () => {
       try {
         const documents = await fetchAllFiles();
-        // Map Appwrite documents to state, including docId for deletion
         const files = documents.map((doc) => ({
           name: doc.NAME,
           max_id: doc.MAX_SIZE,
@@ -111,7 +104,7 @@ const PDFManager = () => {
 
   return (
     <div className="pdf-container">
-      <h2>📄 PDF Upload & Management</h2>
+      <h2>📄 File Upload & Management</h2>
 
       <div className="upload-box">
         <input
@@ -122,9 +115,18 @@ const PDFManager = () => {
           className="input-text"
         />
 
+        <select
+          value={fileType}
+          onChange={(e) => setFileType(e.target.value)}
+          className="input-select"
+        >
+          <option value="pdf">PDF</option>
+          <option value="text">Text</option>
+        </select>
+
         <input
           type="file"
-          accept=".pdf"
+          accept={fileType === "pdf" ? ".pdf" : ".txt"}
           onChange={handleFileChange}
           className="input-file"
         />
