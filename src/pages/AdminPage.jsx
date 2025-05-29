@@ -64,8 +64,8 @@ const PDFManager = () => {
 
   const handleDelete = async (name, max_id) => {
     try {
-      await axios.post("https://bckd.onrender.com/delete/", {
-        name,
+      await axios.post("https://bckd.onrender.com/delete", {
+        name:`${name}`,
         max_id: parseInt(max_id),
       });
 
