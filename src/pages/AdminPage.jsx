@@ -42,7 +42,7 @@ const PDFManager = () => {
       const response = await axios.post(uploadUrl, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+      console.log(response);
       const max_id = response.data.max_id || 0;
 
       const metaResponse = await storeFileMeta(name, max_id);
@@ -65,7 +65,7 @@ const PDFManager = () => {
   const handleDelete = async (name, max_id) => {
     try {
       await axios.post("https://bckd.onrender.com/delete/", {
-        name: `${name}_0`,
+        name,
         max_id: parseInt(max_id),
       });
 
