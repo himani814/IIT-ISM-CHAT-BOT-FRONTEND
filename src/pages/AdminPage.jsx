@@ -67,7 +67,7 @@ const PDFManager = () => {
     try {
       // First delete from backend (Pinecone)
       await axios.post("https://bckd.onrender.com/delete/", {
-        name,
+        name:`${name}_0`,
         max_id: parseInt(max_id),
       });
 
