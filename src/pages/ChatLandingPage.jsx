@@ -138,7 +138,7 @@ function Home() {
   const handleChatClick = () => navigate("/chat");
 
   const handleLinkedInClick = () =>
-    window.open("https://www.linkedin.com/in/shubham-das-22je0936", "_blank");
+    window.open("https://www.linkedin.com/school/iitism/?originalSubdomain=in", "_blank");
   const handleInstaClick = () =>
     window.open("https://www.instagram.com/shubhdasham", "_blank");
   const handleTwitterClick = () =>
