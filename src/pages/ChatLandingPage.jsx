@@ -137,12 +137,16 @@ function Home() {
 
   const handleChatClick = () => navigate("/chat");
 
+  
+  const handleFacebookClick = () =>
+    window.open("https://www.facebook.com/IITISMDHNB/", "_blank");
   const handleLinkedInClick = () =>
     window.open("https://www.linkedin.com/school/iitism/?originalSubdomain=in", "_blank");
   const handleInstaClick = () =>
     window.open("https://www.instagram.com/iit.ism/?hl=en", "_blank");
   const handleTwitterClick = () =>
     window.open("https://x.com/iitismdhn", "_blank");
+  
 
   return (
     <>
@@ -176,7 +180,7 @@ function Home() {
             />
             <FaFacebookSquare
               className="footer-icons-div"
-              onClick={() => alert("This feature is coming soon!")}
+               onClick={handleFacebookClick}
             />
             <FaInstagramSquare
               className="footer-icons-div"
