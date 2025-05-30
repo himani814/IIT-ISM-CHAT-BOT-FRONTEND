@@ -1,9 +1,9 @@
-.navbar-block {
+.navbar-block-dark {
   height: 70px;
   width: 100vw;
 }
 
-.navbar {
+.navbar-dark {
   position: fixed;
   top: 0;
   display: flex;
@@ -19,7 +19,7 @@
   background-color: white;
 }
 
-.navbar-left {
+.navbar-left-dark {
   display: flex;
   gap: 10px;padding-left: 40px;
   font-size: 1.4rem;
@@ -27,22 +27,22 @@
   position: relative;width: 65%;
 }
 
-.navbar-left p {
+.navbar-left-dark p {
   color: rgba(0, 248, 248, 1);
   text-shadow: 0 0 0px rgba(0, 248, 248, 0.7), 0 0 10px rgba(72, 229, 229, 0.836), 0 0 15px rgba(0, 248, 248, 0.3);
 }
 
 
-.navbar-right a:hover {
+.navbar-right-dark a:hover {
   color: rgba(0, 248, 248, 1);
 }
 
-.navbar-right {
+.navbar-right-dark {
   display: flex;
   align-items: center;
 }
 
-.navbar-right-link-properties {
+.navbar-right-link-properties-dark {
   margin-left: 2rem;
   font-size: 16px;
   font-weight: 600;
@@ -52,11 +52,11 @@
   cursor: pointer;
 }
 
-.navbar-right-link-properties:hover {
+.navbar-right-link-properties-dark:hover {
   color: rgba(0, 248, 248, 1);
 }
 
-.navbar-right-link-properties.active {
+.navbar-right-link-properties-dark.active {
   color: rgba(0, 248, 248, 1);
   text-shadow: 0 0 0px rgba(0, 248, 248, 0.3), 0 0 10px rgba(72, 229, 229, 0.3), 0 0 15px rgba(0, 248, 248, 0.3);
 }

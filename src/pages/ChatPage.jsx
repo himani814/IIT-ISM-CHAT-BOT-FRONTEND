@@ -30,6 +30,15 @@ const WelcomeScreen = () => {
     Cookies.set("chatHistory", JSON.stringify(allChats), { expires: 7 });
     setChatHistory(allChats);
   };
+  useEffect(() => {
+  const savedMessages = loadMessagesFromCookie();
+  setMessages(savedMessages);
+
+  const savedTheme = localStorage.getItem("theme");
+  setTheme(savedTheme === "dark" ? "dark" : "light");
+  console.log(theme);
+}, []);
+
 
   const loadMessagesFromCookie = () => {
     const date = getToday();

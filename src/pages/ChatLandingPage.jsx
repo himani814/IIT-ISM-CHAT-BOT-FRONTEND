@@ -5,9 +5,13 @@ import { account } from "../../appwrite/AppwriteConfig.js";
 import Cookies from "js-cookie";
 
 import NavBar from "../components/Navbar.jsx";
-import "../styles/home.css";
-import logo from "../assets/cyan.png";
+import logoLight from "../assets/iit-ism-light.png";
+import logoDark from "../assets/cyan.png";
 import TypeAnimation from "../utils/typeAnimation.jsx";
+
+import "../styles/homeLight.css";
+import "../styles/homeDark.css";
+
 import {
   FaLinkedin,
   FaFacebookSquare,
@@ -24,14 +28,20 @@ function Home() {
     "Guiding You Through Campus Life",
     "Ask Me About Academics & Clubs",
     "Ready to Answer All Your ISM Questions",
-    "Helping You Stay on Top of Deadlines 📅",
     "Your Go-To for Course and Hostel Info",
     "Bringing You the Latest Campus Updates",
     "Your Smart, Friendly Chat Companion",
     "Always Ready. Always Helpful.",
+    "ISM Buddy 🤖",
+    "Personal Assistant at IIT Dhanbad",
+    "Guiding You Through Campus Life",
+    "Ask Me About Academics & Clubs",
+    "Your Go-To for Course and Hostel Info",
+    "Friendly Chat Companion",
+    "Always Ready. Always Helpful.",
     "Making ISM Life Easier for You 💙",
     "ISM Buddy 🤖",
-    "Your Personal Assistant at IIT Dhanbad",
+    "Personal Assistant at IIT Dhanbad",
     "Guiding You Through Campus Life",
     "Ask Me About Academics & Clubs",
     "Ready to Answer All Your ISM Questions",
@@ -42,18 +52,7 @@ function Home() {
     "Always Ready. Always Helpful.",
     "Making ISM Life Easier for You 💙",
     "ISM Buddy 🤖",
-    "Your Personal Assistant at IIT Dhanbad",
-    "Guiding You Through Campus Life",
-    "Ask Me About Academics & Clubs",
-    "Ready to Answer All Your ISM Questions",
-    "Helping You Stay on Top of Deadlines 📅",
-    "Your Go-To for Course and Hostel Info",
-    "Bringing You the Latest Campus Updates",
-    "Your Smart, Friendly Chat Companion",
-    "Always Ready. Always Helpful.",
-    "Making ISM Life Easier for You 💙",
-    "ISM Buddy 🤖",
-    "Your Personal Assistant at IIT Dhanbad",
+    "Personal Assistant at IIT Dhanbad",
     "Guiding You Through Campus Life",
     "Ask Me About Academics & Clubs",
     "Ready to Answer All Your ISM Questions",
@@ -80,10 +79,12 @@ function Home() {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
+   const [themes, setThemes] = useState(theme);
 
   useEffect(() => {
     document.body.className = theme;
     localStorage.setItem("theme", theme);
+    setThemes(theme);
   }, [theme]);
 
   useEffect(() => {
@@ -137,28 +138,30 @@ function Home() {
 
   const handleChatClick = () => navigate("/chat");
 
-  
   const handleFacebookClick = () =>
     window.open("https://www.facebook.com/IITISMDHNB/", "_blank");
   const handleLinkedInClick = () =>
-    window.open("https://www.linkedin.com/school/iitism/?originalSubdomain=in", "_blank");
+    window.open(
+      "https://www.linkedin.com/school/iitism/?originalSubdomain=in",
+      "_blank"
+    );
   const handleInstaClick = () =>
     window.open("https://www.instagram.com/iit.ism/?hl=en", "_blank");
   const handleTwitterClick = () =>
     window.open("https://x.com/iitismdhn", "_blank");
-  
 
   return (
     <>
-      <NavBar />
-      <div className={`home ${theme}`}>
-        <div className="home-left">
-          <div className="home-left-1">
+      <NavBar theme={themes}/>
+      <div className={`home-${theme} ${theme}`}>
+        <div className={`home-left-${theme}`}>
+          <div className={`home-left-1-${theme}`}>
             Hi, it's <p>ISM BUDDY</p>
           </div>
-          <div className="home-left-2">
+
+          <div className={`home-left-2-${theme}`}>
             I'm a{" "}
-            <div className="home-left-2-title">
+            <div className={`home-left-2-title-${theme}`}>
               <TypeAnimation
                 sequence={sequence}
                 wrapper="div"
@@ -166,76 +169,81 @@ function Home() {
               />
             </div>
           </div>
-          <p className="home-left-3">
+
+          <p className={`home-left-3-${theme}`}>
             Meet ISM Buddy – your friendly chat assistant from IIT Dhanbad!
             Whether you're a student navigating college life, curious about
             academics, or just looking for quick answers, ISM Buddy is here to
-            help 24/7...
+            help 24/7.
           </p>
 
-          <div className="home-left-4">
+          <div className={`home-left-4-${theme}`}>
             <FaLinkedin
-              className="footer-icons-div"
+              className={`footer-icons-div-${theme}`}
               onClick={handleLinkedInClick}
             />
             <FaFacebookSquare
-              className="footer-icons-div"
-               onClick={handleFacebookClick}
+              className={`footer-icons-div-${theme}`}
+              onClick={handleFacebookClick}
             />
             <FaInstagramSquare
-              className="footer-icons-div"
+              className={`footer-icons-div-${theme}`}
               onClick={handleInstaClick}
             />
             <FaTwitterSquare
-              className="footer-icons-div"
+              className={`footer-icons-div-${theme}`}
               onClick={handleTwitterClick}
             />
           </div>
 
           {userName && (
-            <div className="home-left-5-n">
-              <div className="home-left-5-2-n">Welcome, {userName}</div>
+            <div className={`home-left-5-n-${theme}`}>
+              <div className={`home-left-5-2-n-${theme}`}>
+                Welcome, {userName}
+              </div>
             </div>
           )}
-          <div className="home-left-5">
-            <div className="home-left-5-1" onClick={handleChatClick}>
+
+          <div className={`home-left-5-${theme}`}>
+            <div className={`home-left-5-1-${theme}`} onClick={handleChatClick}>
               CHAT WITH ME
             </div>
 
             {userName ? (
-              <div className="home-left-5-1" onClick={handleLogoutClick}>
+              <div
+                className={`home-left-5-1-${theme}`}
+                onClick={handleLogoutClick}
+              >
                 LOG OUT
               </div>
             ) : (
-              <div className="home-left-5-2" onClick={handleLoginClick}>
+              <div
+                className={`home-left-5-2-${theme}`}
+                onClick={handleLoginClick}
+              >
                 LOGIN
               </div>
             )}
           </div>
 
-          <div className="home-left-br">
-            {theme === "dark" ? (
-              <div
-                className={`home-left-5-br ${
-                  theme === "light" ? "active" : ""
-                }`}
-                onClick={() => setTheme("light")}
-              >
-                WHITE MODE
-              </div>
-            ) : (
-              <div
-                className={`home-left-5-br ${theme === "dark" ? "active" : ""}`}
-                onClick={() => setTheme("dark")}
-              >
-                DARK MODE
-              </div>
-            )}
+          <div className={`home-left-br-${theme}`}>
+            <div
+              className={`theme-toggle-light-${theme} ${
+                theme === "light" ? "active" : ""
+              }`}
+              onClick={() => setTheme("light")}
+            ></div>
+            <div
+              className={`theme-toggle-dark-${theme} ${
+                theme === "dark" ? "active" : ""
+              }`}
+              onClick={() => setTheme("dark")}
+            ></div>
           </div>
         </div>
 
-        <div className="home-right">
-          <img src={logo} alt="Logo" />
+        <div className={`home-right-${theme}`}>
+          <img src={theme=='light' ? logoLight : logoDark} alt="Logo" />
         </div>
       </div>
     </>

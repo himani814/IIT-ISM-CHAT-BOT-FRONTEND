@@ -1,0 +1,120 @@
+.navbar-block-light {
+  height: 70px;
+  width: 100vw;
+}
+
+.navbar-light {
+  position: fixed;
+  top: 0;
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  height: 70px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  z-index: 1000;
+  padding-top: 10px;
+  overflow: scroll;
+}
+.navbar.active{
+  background-color: white;
+}
+
+.navbar-left-light {
+  display: flex;
+  gap: 10px;padding-left: 40px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  position: relative;width: 65%;
+}
+
+.navbar-left-light p {
+   color: #3674B5;
+}
+
+
+
+.navbar-right-light a:hover {
+  color: #3674B5;
+}
+
+.navbar-right-light {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right-link-properties-light {
+  margin-left: 2rem;
+  font-size: 16px;
+  font-weight: 600;
+  gap: 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.navbar-right-link-properties-light:hover {
+   color: #3674B5;
+}
+
+.navbar-right-link-properties.active {
+   color: #3674B5;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: space-around;
+    gap: 4px;
+  }
+  
+  .hamburger-menu {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hamburger-menu-ham,
+  .hamburger-menu-close {
+    font-size: 30px;
+    color: white;
+  }
+
+  .mobile-side-menu {
+    background-color: black;
+    
+    z-index: 1000;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+    top: 75px;left: -100vw;
+    min-height: 100vh;
+    width: 100vw;
+    padding: 5px;
+    transition: transform 1s ease-in-out;
+  }
+  .mobile-side-menu.open {
+    transform: translateX(100vw);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .mobile-menu-link {
+    width: 92%;
+    font-size: 25px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+    background-color: rgb(36, 38, 38);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+.mobile-menu-link.active{
+  background-color: cyan;
+  color: black;
+  box-shadow: 0 0 20px rgba(0, 248, 248, 0.7), 0 0 20px rgba(72, 229, 229, 0.836), 0 0 15px rgba(0, 248, 248, 0.3);
+   
+}
+}

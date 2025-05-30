@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
-import "../styles/Navbar.css";
+import "../styles/navbarLight.css";
+import "../styles/navbarDark.css";
 
-const NavBar = () => {
+const NavBar = ({theme}) => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -22,93 +23,84 @@ const NavBar = () => {
     };
   }, []);
 
+  // Update body class for global styling (optional)
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Close menu on link click for mobile
   const handleLinkClick = () => {
     if (isMobile) {
       setIsMenuOpen(false);
     }
   };
 
+ 
   return (
     <>
-      <div className="navbar-block"></div>
-      <div className="navbar">
-        <div className="navbar-left">
-          <div
-            className="navbar-left-name"
-            style={{ display: "flex", gap: "7px" }}
-          >
+      <div className={`navbar-block-${theme}`}></div>
+      <div className={`navbar navbar-${theme}`}>
+        <div className={`navbar-left navbar-left-${theme}`}>
+          <div className={`navbar-left-name navbar-left-name-${theme}`} style={{ display: "flex", gap: "7px" }}>
             IIT (ISM) <p>DHANBAD.</p>
           </div>
         </div>
+
         {isMobile ? (
-          <>
-            <button className="hamburger-menu" onClick={toggleMenu}>
-              {isMenuOpen ? (
-                <IoClose className="hamburger-menu-close" />
-              ) : (
-                <GiHamburgerMenu className="hamburger-menu-ham" />
-              )}
-            </button>
-          </>
+          <button className={`hamburger-menu hamburger-menu-${theme}`} onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <IoClose className={`hamburger-menu-close hamburger-menu-close-${theme}`} />
+            ) : (
+              <GiHamburgerMenu className={`hamburger-menu-ham hamburger-menu-ham-${theme}`} />
+            )}
+          </button>
         ) : (
-          <>
-            <div className={`navbar-right`}>
-              <div
-                className={`navbar-right-link-properties ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
-                to="/"
-              >
-                CHAT BOT
-              </div>
-              <div
-                className={`navbar-right-link-properties`}
-                onClick={() =>
-                  (window.location.href = "https://www.iitism.ac.in/")
-                }
-              >
-                MAIN PAGE
-              </div>
-              <div
-                className={`navbar-right-link-properties`}
-                onClick={() =>
-                  (window.location.href = "https://www.iitism.ac.in/contact-ma")
-                }
-              >
-                CONTACT US
-              </div>
+          <div className={`navbar-right navbar-right-${theme}`}>
+            <div
+              className={`navbar-right-link-properties navbar-right-link-properties-${theme} ${
+                location.pathname === "/" ? "active" : ""
+              }`}
+            >
+              CHAT BOT
             </div>
-          </>
+            <div
+              className={`navbar-right-link-properties navbar-right-link-properties-${theme}`}
+              onClick={() => (window.location.href = "https://www.iitism.ac.in/")}
+            >
+              MAIN PAGE
+            </div>
+            <div
+              className={`navbar-right-link-properties navbar-right-link-properties-${theme}`}
+              onClick={() => (window.location.href = "https://www.iitism.ac.in/contact-ma")}
+            >
+              CONTACT US
+            </div>
+          </div>
         )}
+
       </div>
+
       {isMenuOpen && (
-        <div className={`mobile-side-menu ${isMenuOpen ? "open" : ""}`}>
+        <div className={`mobile-side-menu mobile-side-menu-${theme} open`}>
           <div
-            className={`mobile-menu-link ${
+            className={`mobile-menu-link mobile-menu-link-${theme} ${
               location.pathname === "/" ? "active" : ""
             }`}
-            to="/"
             onClick={handleLinkClick}
           >
             CHAT BOT
           </div>
           <div
-            className={`mobile-menu-link ${
-              location.pathname === "/service" ? "active" : ""
-            }`}
+            className={`mobile-menu-link mobile-menu-link-${theme}`}
             onClick={() => (window.location.href = "https://www.iitism.ac.in/")}
           >
             MAIN PAGE
           </div>
           <div
-            className={`mobile-menu-link ${
-              location.pathname === "/service" ? "active" : ""
-            }`}
+            className={`mobile-menu-link mobile-menu-link-${theme}`}
             onClick={() => (window.location.href = "https://www.iitism.ac.in/contact-ma")}
           >
             CONTACT US
