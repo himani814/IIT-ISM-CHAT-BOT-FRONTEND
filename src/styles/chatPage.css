@@ -161,7 +161,9 @@
   align-self: flex-end;
   border-bottom-right-radius: 0;
 }
-
+.footer-icons-div{
+  cursor:pointer
+}
 .bot-message {
   background-color: #3a3a3a;
   align-self: flex-start;

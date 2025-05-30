@@ -140,9 +140,9 @@ function Home() {
   const handleLinkedInClick = () =>
     window.open("https://www.linkedin.com/school/iitism/?originalSubdomain=in", "_blank");
   const handleInstaClick = () =>
-    window.open("https://www.instagram.com/shubhdasham", "_blank");
+    window.open("https://www.instagram.com/iit.ism/?hl=en", "_blank");
   const handleTwitterClick = () =>
-    window.open("https://twitter.com/IITISM_Dhanbad", "_blank");
+    window.open("https://x.com/iitismdhn", "_blank");
 
   return (
     <>
