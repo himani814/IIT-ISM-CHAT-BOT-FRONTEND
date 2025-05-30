@@ -49,6 +49,7 @@
   gap: 10px;
   text-decoration: none;
   transition: color 0.3s;
+  cursor: pointer;
 }
 
 .navbar-right-link-properties:hover {
