@@ -83,9 +83,9 @@ const ChatPage = () => {
     setMessages(savedMessages);
 
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || savedTheme === "light") {
-      setTheme(savedTheme);
-    }
+    // if (savedTheme === "dark" || savedTheme === "light") {
+    //   setTheme(savedTheme);
+    // }
   }, []);
 
   useEffect(() => {
