@@ -20,7 +20,36 @@
   width: 100px;
   height: 100px;
   margin-bottom: 20px;
+
+  animation: bounceShake 2.5s infinite ease-in-out;
+  transform-origin: top center; /* Makes it swing from the top */
 }
+@keyframes bounceShake {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  40% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  60% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+  80% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Optional: Add hover effect to pause animation */
+.orb :hover {
+  animation-play-state: paused;
+}
+
 
 .title-light {
   font-size: 2rem;
