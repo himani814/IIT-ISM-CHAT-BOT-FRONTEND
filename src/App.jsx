@@ -1,5 +1,5 @@
-import Index from './pages/ChatLandingPage.jsx';
-import Chat from './pages/ChatPage.jsx';
+import Index from './pages/homePage.jsx';
+import ChatPage from './pages/chatPage/chatPage.jsx';
 import Admin from './pages/AdminPage.jsx';
 import AdminLogin from './pages/AdminLogin.jsx';
 import PrivateRoute from './secure/privateRoute.jsx';
@@ -16,7 +16,7 @@ const App = () => {
             path="/chat"
             element={
               <PrivateRoute>
-                <Chat />
+                <ChatPage />
               </PrivateRoute>
             }
           />

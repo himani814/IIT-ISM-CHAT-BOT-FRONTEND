@@ -9,8 +9,8 @@ import logoLight from "../assets/iit-ism-light.png";
 import logoDark from "../assets/cyan.png";
 import TypeAnimation from "../utils/typeAnimation.jsx";
 
-import "../styles/homeLight.css";
-import "../styles/homeDark.css";
+import "../styles/homePageLight.css";
+import "../styles/homePageDark.css";
 
 import {
   FaLinkedin,
@@ -45,7 +45,6 @@ function Home() {
     "Guiding You Through Campus Life",
     "Ask Me About Academics & Clubs",
     "Ready to Answer All Your ISM Questions",
-    "Helping You Stay on Top of Deadlines 📅",
     "Your Go-To for Course and Hostel Info",
     "Bringing You the Latest Campus Updates",
     "Your Smart, Friendly Chat Companion",
@@ -56,7 +55,6 @@ function Home() {
     "Guiding You Through Campus Life",
     "Ask Me About Academics & Clubs",
     "Ready to Answer All Your ISM Questions",
-    "Helping You Stay on Top of Deadlines 📅",
     "Your Go-To for Course and Hostel Info",
     "Bringing You the Latest Campus Updates",
     "Your Smart, Friendly Chat Companion",
@@ -67,7 +65,6 @@ function Home() {
     "Guiding You Through Campus Life",
     "Ask Me About Academics & Clubs",
     "Ready to Answer All Your ISM Questions",
-    "Helping You Stay on Top of Deadlines 📅",
     "Your Go-To for Course and Hostel Info",
     "Bringing You the Latest Campus Updates",
     "Your Smart, Friendly Chat Companion",
@@ -226,7 +223,7 @@ function Home() {
             )}
           </div>
 
-          <div className={`home-left-br-${theme}`}>
+            <div className={`home-left-br-${theme}`}>
             <div
               className={`theme-toggle-light-${theme} ${
                 theme === "light" ? "active" : ""
