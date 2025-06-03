@@ -118,13 +118,6 @@
 .history-date-light {
   font-size: 20px;
 }
-.delete-session-button-light {
-  background: none;
-  border: none;
-  color: #FF4D4F;position:relative;right: 0px;
-  cursor: pointer;
-  font-size: 1.2rem;
-}
 .chat-date-icon-light{
   font-size: 1rem;
 }

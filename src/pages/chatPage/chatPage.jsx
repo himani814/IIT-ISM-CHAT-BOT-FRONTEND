@@ -165,9 +165,12 @@ const ChatPage = () => {
           <Header
             theme={theme}
             startNewChat={startNewChat}
+            messages={messages}
+            deleteChatSession={deleteChatSession}
             currentChatId={currentChatId}
             setCurrentChatId={setCurrentChatId}
           />
+
           <ChatMessages
             theme={theme}
             messages={messages}

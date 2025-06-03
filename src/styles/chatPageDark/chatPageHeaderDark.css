@@ -2,7 +2,6 @@
   display: flex;justify-content: space-between;
   align-items: center;height: 40px;
   gap: 20px;padding: 7px;
-  /* border-bottom: 1px solid #3673b556; */
   width: calc(100% - 14px);
 }
 
@@ -10,7 +9,7 @@
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0;color: #4C3BCF;
+  padding: 0;color: #ffffff;
 }
 .chat-top-right-div-dark{
   display: flex;gap: 10px;
@@ -70,7 +69,11 @@
   transition: transform 0.5s, opacity 0.6s;
   z-index: -1;
 }
+.create-task-dark:hover{
 
+   scale: 1.05;
+  cursor: pointer;
+}
 .create-task-dark:hover::after {
   transform: scale(1);
   opacity: 0;
@@ -79,6 +82,43 @@
 .goplus-new-dark{
   font-size: 25px;
 }
+
+
+
+
+
+
+.delete-session-button-dark {
+  border: 1.1px solid #4C3BCF;
+  color: rgb(255, 255, 255);
+  padding: 8px 16px 8px 16px;
+  background-color: #4C3BCF;
+  border-radius: 7px;
+  font-size: 0.9rem;display: flex;justify-content: center;
+  align-items: center;
+}
+.delete-session-button-dark:hover{
+  scale: 1.05;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .top-bar {
