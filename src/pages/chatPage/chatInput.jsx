@@ -40,7 +40,7 @@ const ChatInput = ({
           >
             <AiOutlineSend />
           </button>
-          <span className="char-counter">{inputMessage.length}/1500</span>
+          <span className={`char-counter-${theme}`}>{inputMessage.length}/1500</span>
         </div>
       </div>
     </div>

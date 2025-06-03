@@ -15,7 +15,7 @@
   border: 1px solid #3674B5;
   transition: border 0.3s ease, box-shadow 0.3s ease;
   width: 80%;padding: 5px 10px 10px 3px;
-  border-radius: 10px;
+  border-radius: 10px;color: black;
 }
 .input-container-focus-light{
    display: flex;
@@ -23,8 +23,8 @@
   gap: 10px;height: 110px;
   width: 80%;padding: 5px 10px 10px 3px;
   border-radius: 10px;
-  border: 1px solid rgb(0, 200, 83);
-  box-shadow: 0 0 10px 2px rgba(173, 243, 202, 0.363);
+  border: 1px solid rgb(0, 137, 200);
+  box-shadow: 0 0 10px 2px rgba(88, 171, 255, 0.178);
   cursor: pointer;
 }
 
@@ -59,10 +59,13 @@
   cursor: not-allowed;
 }
 
-.char-counter {
+
+
+.char-counter-light{
   font-size: 0.8rem;
   position: absolute;
   bottom: 0px;
   right: 5px;
   color: #000000;
+  color: black;
 }
