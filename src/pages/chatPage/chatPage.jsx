@@ -12,6 +12,12 @@ import "../../styles/chatPageLight/chatPageSidebar.css";
 import "../../styles/chatPageLight/chatMessage.css";
 import "../../styles/chatPageLight/chatInput.css";
 
+import "../../styles/chatPageDark/chatPageDark.css";
+import "../../styles/chatPageDark/chatPageHeaderDark.css";
+import "../../styles/chatPageDark/chatPageSidebarDark.css";
+import "../../styles/chatPageDark/chatMessageDark.css";
+import "../../styles/chatPageDark/chatInputDark.css";
+
 const ChatPage = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -83,9 +89,9 @@ const ChatPage = () => {
     setMessages(savedMessages);
 
     const savedTheme = localStorage.getItem("theme");
-    // if (savedTheme === "dark" || savedTheme === "light") {
-    //   setTheme(savedTheme);
-    // }
+    if (savedTheme === "dark" || savedTheme === "light") {
+      setTheme(savedTheme);
+    }
   }, []);
 
   useEffect(() => {
@@ -143,7 +149,7 @@ const ChatPage = () => {
 
   return (
     <div className={`chat-container-main-${theme}`}>
-      <Sidebar
+      {/* <Sidebar
         theme={theme}
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
@@ -153,7 +159,7 @@ const ChatPage = () => {
         toggleTheme={toggleTheme}
         currentChatId={currentChatId}
         setCurrentChatId={setCurrentChatId}
-      />
+      /> */}
       <main className={`chat-container-${theme}`}>
         <div className={`chat-main-div-${theme}`}>
           <Header

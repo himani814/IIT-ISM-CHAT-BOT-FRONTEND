@@ -1,15 +1,15 @@
-.chat-screen-light {
+.chat-screen-dark {
   background-size: 20px 20px;
   display: flex;margin: 0px 0px 20px 0px;
   flex-direction: column;overflow-y: scroll;
-  max-height: 80vh;background-color: #ffffff;
+  max-height: 80vh;
   min-height: 60vh;justify-content: center;align-items: center;
   max-width: calc(100vw - 17vw );
   min-width: calc(100vw - 17vw );
   
 }
 
-.chat-screen-init-light {
+.chat-screen-init-dark {
   text-align: center;
   margin: auto;display: flex;justify-content: center;align-items: center;
   flex-direction: column;min-height: 50vh;
@@ -20,7 +20,7 @@
   width: 100px;
   height: 100px;
   margin-bottom: 20px;
-
+  background-color: white;padding: 10px;border-radius: 13px;
   animation: bounceShake 2.5s infinite ease-in-out;
   transform-origin: top center; /* Makes it swing from the top */
 }
@@ -51,44 +51,44 @@
 }
 
 
-.title-light {
+.title-dark {
   font-size: 2rem;
   margin-bottom: 10px;
   max-width: 70%;
 }
 
-.chat-description-light {
-  color: #666;
+.chat-description-dark {
+  color: #ffffff;
   font-size: 0.9rem;max-width: 70%;
   margin-bottom: 10px;margin-top: -7px;
 }
 
-.prompt-light {
-  color: #A0A0A0;
+.prompt-dark {
+  color: #ffffff;
   font-style: italic;
   margin-bottom: 20px;
 }
 
-.suggestions-light {
+.suggestions-dark {
   display: flex;
   gap: 20px;
   justify-content: center;margin-top:20px;
 }
-.card-item-light{
+.card-item-dark{
   border: 1px solid black;
   width: 190px;padding: 15px;
   cursor: pointer;text-align: center;
-  border: 1px solid rgb(60, 152, 118);
+  border: 1px solid #4C3BCF;
   transition: border 0.3s ease, box-shadow 0.3s ease;
   padding: 10px;
   border-radius: 8px;
 }
-.card-item-light p{
+.card-item-dark p{
   size: 5px;
 }
-.card-item-light:hover {
-  border: 1px solid rgb(0, 200, 83);
-  box-shadow: 0 0 10px 2px rgba(173, 243, 202, 0.363); /* glow effect */
+.card-item-dark:hover {
+  border: 1px solid #4C3BCF;
+  box-shadow: 0 0 10px 2px #4c3bcf65;
   cursor: pointer;
   scale: 1.05;
 }
@@ -109,9 +109,11 @@
 
 
 
+.chat-message-p-dark {
+  display: flex;gap: 10px;
+}
 
-
-.chat-messages-light {
+.chat-messages-dark {
   flex: 1;
   overflow-y: auto;
   padding-bottom: 120px;
@@ -119,11 +121,9 @@
   min-width: calc(83vw * 0.8);
   max-width: calc(83vw * 0.8);
 }
-.chat-message-p-light {
-  display: flex;gap: 10px;
-}
-.chat-message-light {
-  margin-bottom: 15px;
+
+.chat-message-dark {
+  margin-bottom: 15px;background-color: #00224D;
   padding: 12px 16px;
   border-radius: 15px;
   max-width: calc(77vw * 0.8);
@@ -133,18 +133,16 @@
   word-wrap: break-word;
 }
 
-.user-message-light {
-  border: 1px solid #0066cc3c;
-  color: rgb(0, 0, 0);
+.user-message-dark {
+  color: rgb(255, 255, 255);
   width:fit-content;
-  margin-left: auto;display: flex;align-items:flex-start;
+  margin-left: auto;
   max-width: 40%;
-  border-bottom-right-radius: 5px;background-color: aliceblue;
+  border-bottom-right-radius: 5px;
 }
 
-.bot-message-light {
-  background-color: #f2f2f2;
-  color: #333;
+.bot-message-dark {
+  color: #ffffff;
   margin-right: 30%;
   border-bottom-left-radius: 5px;
   
@@ -152,27 +150,26 @@
 }
 
 /* Markdown Styling Inside Bot Messages */
-.bot-message-light strong {
+.bot-message-dark strong {
   font-weight: bold;
 }
-.bot-message-light em {
+.bot-message-dark em {
   font-style: italic;
 }
-.bot-message-light a {
-  color: #0066cc;
+.bot-message-dark a {
+  color: #4C3BCF;
   text-decoration: underline;
 }
-.bot-message-light ul, .bot-message-light ol {
+.bot-message-dark ul, .bot-message-dark ol {
   margin-left: 20px;
 }
-.bot-message-light code {
-  background: #eee;
+.bot-message-dark code {
   font-family: monospace;
   padding: 2px 4px;
   border-radius: 4px;
 }
 
-.chat-loader-light {
+.chat-loader-dark {
   text-align: center;
   margin: 20px 0;
 }
@@ -180,28 +177,34 @@
 
 
 
+.chat-loading-dark{
+  color: white;
+}
 
 
 
 
-.bot-icon-div-light{
+
+
+
+.bot-icon-div-dark{
   display: flex;gap: 10px;
 
 }
-.bot-icon-div-light p{
+.bot-icon-div-dark p{
   display: flex;justify-content: center;align-items: center;
 }
-.bot-icon-div-light img{
+.bot-icon-div-dark img{
   width: 50px;
 }
 
 
-.user-icon-div-light{
+.user-icon-div-dark{
   display: flex;gap: 10px;
   justify-content: flex-end;margin-top: 5px;
 
 }
-.user-icon-div-light img{
+.user-icon-div-dark img{
   width: 30px;
   border-radius: 40%;height: 30px;
 }

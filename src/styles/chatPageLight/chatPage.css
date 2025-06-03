@@ -30,9 +30,10 @@
   overflow: hidden;
 }
 .chat-main-div-light{
-  max-width: calc(100vw - 17vw -10px);
-  width: calc(100vw - 17vw - 10px);height: 100vh;
-  overflow: hidden;
+  max-width: calc(100vw - 0px);
+  width: calc(100vw - 0px);height: 100vh;
+  overflow: hidden;display: flex;align-items: center;
+  flex-direction: column;
 }
 
 

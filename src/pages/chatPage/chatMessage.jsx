@@ -4,11 +4,21 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
 import logo from "../../assets/iit-white.png";
+import bot_icon from "../../assets/bot-icon.png";
+import user_icon from "../../assets/user-icon.png";
+
 import useChatApi from "../../hooks/useChatApi.jsx";
 import Cookies from "js-cookie";
 
-const ChatMessages = ({ theme, messages,isloading, setMessages, messagesEndRef }) => {
+const ChatMessages = ({
+  theme,
+  messages,
+  isloading,
+  setMessages,
+  messagesEndRef,
+}) => {
   const [inputMessage, setInputMessage] = useState("");
   const inputRef = useRef(null);
   const { sendMessage, isLoading, error } = useChatApi();
@@ -66,7 +76,7 @@ const ChatMessages = ({ theme, messages,isloading, setMessages, messagesEndRef }
     setInputMessage(question);
     handleSend(question);
   };
-console.log(isLoading)
+  console.log(isLoading);
   return (
     <section className={`chat-screen-${theme}`}>
       {messages.length <= 0 ? (
@@ -97,46 +107,65 @@ console.log(isLoading)
       ) : (
         <div className={`chat-messages-${theme}`}>
           {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`chat-message-${theme} ${
-                msg.type === "user"
-                  ? `user-message-${theme}`
-                  : `bot-message-${theme}`
-              }`}
-            >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  code({ inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || "");
-                    return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={materialDark}
-                        language={match[1]}
-                        PreTag="div"
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, "")}
-                      </SyntaxHighlighter>
-                    ) : (
-                      <code className={className} {...props}>
-                        {children}
-                      </code>
-                    );
-                  },
-                }}
+            <div>
+              {msg.type !== "user" && (
+                <div className={`bot-icon-div-${theme}`}>
+                  <img src={bot_icon} />
+                  <p>ISM BUDDY</p>
+                </div>
+              )}
+              <div
+                key={idx}
+                className={`chat-message-p-${theme}`}
               >
-                {msg.text}
-              </ReactMarkdown>
+                <div
+                  key={idx}
+                  className={`chat-message-${theme} ${
+                    msg.type === "user"
+                      ? `user-message-${theme}`
+                      : `bot-message-${theme}`
+                  }`}
+                >
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      code({ inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                          <SyntaxHighlighter
+                            style={materialDark}
+                            language={match[1]}
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, "")}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <code className={className} {...props}>
+                            {children}
+                          </code>
+                        );
+                      },
+                    }}
+                  >
+                    {msg.text}
+                  </ReactMarkdown>
+                </div>
+                {msg.type === "user" && (
+                  <div className={`user-icon-div-${theme}`}>
+                    <img src={user_icon} />
+                  </div>
+                )}
+              </div>
             </div>
           ))}
 
-          {isLoading || isloading && (
-            <div className={`chat-loader-${theme}`}>
-              <PulseLoader className={`chat-loading-${theme}`} size={8} />
-            </div>
-          )}
+          {isLoading ||
+            (isloading && (
+              <div className={`chat-loader-${theme}`}>
+                <PulseLoader className={`chat-loading-${theme}`} size={8} />
+              </div>
+            ))}
           <div ref={messagesEndRef} />
         </div>
       )}
