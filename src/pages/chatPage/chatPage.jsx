@@ -32,6 +32,7 @@ const ChatPage = () => {
 
   const getToday = () => new Date().toISOString().split("T")[0];
 
+  // Save messages for the current chatId into cookies and update chatHistory state
   const saveMessagesToCookie = (msgs) => {
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
     const chatId = currentChatId || getToday();
@@ -40,6 +41,7 @@ const ChatPage = () => {
     setChatHistory(allChats);
   };
 
+  // Load today's messages (if any) when the component first mounts
   const loadMessagesFromCookie = () => {
     const date = getToday();
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
@@ -48,13 +50,15 @@ const ChatPage = () => {
     return allChats[date] || [];
   };
 
+  // Load messages for a given chatId from cookies (but do NOT set currentChatId here)
   const loadChat = (chatId) => {
+    console.log("ko")
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
-    setMessages(allChats[chatId] || []);
-    setCurrentChatId(chatId);
-    setIsSidebarOpen(false);
+    const chatMessages = allChats[chatId] || [];
+    setMessages(chatMessages);
   };
 
+  // Create a fresh session key and clear messages, saving the old session first
   const startNewChat = () => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     const sessionKey = `session-${timestamp}`;
@@ -70,6 +74,7 @@ const ChatPage = () => {
     setCurrentChatId(sessionKey);
   };
 
+  // Delete a session from cookies and update state
   const deleteChatSession = (chatId) => {
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
     if (allChats[chatId]) {
@@ -84,6 +89,7 @@ const ChatPage = () => {
     }
   };
 
+  // On initial mount: load today's messages and theme from localStorage
   useEffect(() => {
     const savedMessages = loadMessagesFromCookie();
     setMessages(savedMessages);
@@ -94,14 +100,25 @@ const ChatPage = () => {
     }
   }, []);
 
+  // Whenever messages or loading state changes, scroll to bottom
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isLoading]);
 
+  // Whenever currentChatId changes, load its messages
+  useEffect(() => {
+    if (currentChatId) {
+      loadChat(currentChatId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentChatId]);
+
+  // Handle input text change
   const handleInputChange = (e) => setInputMessage(e.target.value);
 
+  // Send a message to the API, append to messages, then save to cookie
   const handleSend = async () => {
     if (!inputMessage.trim()) return;
 
@@ -110,6 +127,7 @@ const ChatPage = () => {
     setMessages(newMessages);
     setInputMessage("");
 
+    // Refocus the input after a short delay
     setTimeout(() => inputRef.current?.focus(), 50);
 
     const botResponse = await sendMessage(userMessage);
@@ -122,6 +140,7 @@ const ChatPage = () => {
     saveMessagesToCookie(finalMessages);
   };
 
+  // Pressing Enter in the input sends the message (if not already loading)
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !isLoading) {
       e.preventDefault();
@@ -129,14 +148,17 @@ const ChatPage = () => {
     }
   };
 
+  // Toggle sidebar open/close
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
+  // Toggle between light and dark themes
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };
 
+  // Escape HTML in messages to prevent injection
   const escapeHtml = (unsafe) => {
     if (typeof unsafe !== "string") return unsafe;
     return unsafe
@@ -149,23 +171,33 @@ const ChatPage = () => {
 
   return (
     <div className={`chat-container-main-${theme}`}>
-      {/* <Sidebar
+      {/* Sidebar can be re-enabled if needed:
+      <Sidebar
         theme={theme}
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
         chatHistory={chatHistory}
-        loadChat={loadChat}
+        loadChat={(id) => {
+          loadChat(id);
+          setCurrentChatId(id);
+        }}
         deleteChatSession={deleteChatSession}
         toggleTheme={toggleTheme}
         currentChatId={currentChatId}
         setCurrentChatId={setCurrentChatId}
-      /> */}
+      /> 
+      */}
+
       <main className={`chat-container-${theme}`}>
         <div className={`chat-main-div-${theme}`}>
           <Header
             theme={theme}
             startNewChat={startNewChat}
             messages={messages}
+            chatHistory={chatHistory}
+            loadChat={(id) => {
+              setCurrentChatId(id);
+            }}
             deleteChatSession={deleteChatSession}
             currentChatId={currentChatId}
             setCurrentChatId={setCurrentChatId}
@@ -174,13 +206,14 @@ const ChatPage = () => {
           <ChatMessages
             theme={theme}
             messages={messages}
-            isloading={isLoading}
+            isLoading={isLoading}
             messagesEndRef={messagesEndRef}
             escapeHtml={escapeHtml}
             setMessages={setMessages}
             currentChatId={currentChatId}
             setCurrentChatId={setCurrentChatId}
           />
+
           <ChatInput
             theme={theme}
             inputMessage={inputMessage}

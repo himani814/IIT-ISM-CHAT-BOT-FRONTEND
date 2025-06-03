@@ -106,6 +106,51 @@
 
 
 
+
+
+
+
+/* ============================================
+   Light Theme Styles
+============================================ */
+
+/* Container holding recent chats */
+
+
+.pc-recent-chats-light {
+  max-width:60%;
+  color: rgb(255, 255, 255);
+  padding: 0px 15px 0px 15px;
+  border-radius: 7px;
+  font-size: 0.9rem;display: flex;
+  align-items: center;gap: 10px;
+}
+.pc-recent-chats-light :hover{
+  scale: 1.05;
+  cursor: pointer;
+}
+.pc-history-row-light{
+  border: 2px solid rgb(11, 97, 226);
+  background-color: transparent;
+  border-radius: 50%;padding: 9px;
+}
+.pc-selected-chat-light{
+  background-color: #3674B5;
+  border-radius: 50%;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .top-bar {

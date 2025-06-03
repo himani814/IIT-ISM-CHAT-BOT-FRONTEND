@@ -163,7 +163,7 @@ const ChatMessages = ({
           {isLoading ||
             (isloading && (
               <div className={`chat-loader-${theme}`}>
-                <PulseLoader className={`chat-loading-${theme}`} size={8} />
+                <PulseLoader className={`chat-loading-${theme}`} size={8} color="#045acb" />
               </div>
             ))}
           <div ref={messagesEndRef} />
