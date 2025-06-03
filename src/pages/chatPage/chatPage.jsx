@@ -206,7 +206,7 @@ const ChatPage = () => {
           <ChatMessages
             theme={theme}
             messages={messages}
-            isLoading={isLoading}
+            isloading={isLoading}
             messagesEndRef={messagesEndRef}
             escapeHtml={escapeHtml}
             setMessages={setMessages}
