@@ -45,7 +45,7 @@ const NavBar = ({theme}) => {
       <div className={`navbar navbar-${theme}`}>
         <div className={`navbar-left navbar-left-${theme}`}>
           <div className={`navbar-left-name navbar-left-name-${theme}`} style={{ display: "flex", gap: "7px" }}>
-            IIT (ISM) <p>DHANBAD.</p>
+            IIT (ISM) <p>DHANBAD </p>
           </div>
         </div>
 
