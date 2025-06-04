@@ -157,7 +157,7 @@ function Home() {
           </div>
 
           <div className={`home-left-2-${theme}`}>
-            I'm a{" "}
+            I'm {" "}
             <div className={`home-left-2-title-${theme}`}>
               <TypeAnimation
                 sequence={sequence}
