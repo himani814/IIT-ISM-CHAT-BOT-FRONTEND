@@ -107,6 +107,23 @@
   scale: 1.05;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .chat-message-p-dark {
   display: flex;
   gap: 10px;
@@ -209,6 +226,70 @@
   border-radius: 40%;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Phones and very small screens (max-width: 480px) */
+@media screen and (max-width: 480px) {
+  .chat-screen-dark {
+    max-width: calc(100vw - 30px) !important;
+    min-width: calc(100vw - 30px) !important;
+    padding: 0 5px;height: calc(100vh - 80px);
+  }
+  .suggestions-dark{
+    display: none;
+  }
+  .title-dark {
+    font-size: 1.5rem;
+    max-width: 90%;
+  }
+  .chat-description-dark,
+  .prompt-dark {
+    font-size: 0.8rem;
+    max-width: 80%;
+  }
+  .orb {
+    width: 40vw;
+    height: 40vw;
+    margin-bottom: 15px;
+  }
+
+  .card-item-dark {
+    width: 120px !important;
+    padding: 8px;
+  }
+}
 /* ========== RESPONSIVE (Mobile Devices) ========== */
 
 @media screen and (max-width: 480px) {
