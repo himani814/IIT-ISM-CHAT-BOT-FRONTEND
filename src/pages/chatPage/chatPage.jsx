@@ -121,7 +121,6 @@ const ChatPage = () => {
   // Send a message to the API, append to messages, then save to cookie
   const handleSend = async () => {
     if (!inputMessage.trim()) return;
-    alert(inputMessage)
 
     const userMessage = inputMessage.trim();
     const newMessages = [...messages, { type: "user", text: userMessage }];
