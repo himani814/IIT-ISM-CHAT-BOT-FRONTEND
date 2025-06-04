@@ -1,43 +1,48 @@
-
 .input-container-main-light {
-  height: 140px;
-  width: 83vw;
+  height: 14vh;
+  width: 100vw;
   position: fixed;
   display: flex;
-  justify-content: center;padding-top: 5px;
-  bottom: 0;background-color: white;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  bottom: 0;
+  background-color: white;
+  z-index: 1000;
 }
 
-.input-container-light {
+.input-container-light,
+.input-container-focus-light {
   display: flex;
   flex-direction: column;
-  gap: 10px;height: 110px;
+  gap: 10px;
+  height: 10vh;
+  width: 90%;
+  max-width: 800px;
+  padding: 5px 10px 10px 3px;
+  border-radius: 10px;
   border: 1px solid #3674B5;
   transition: border 0.3s ease, box-shadow 0.3s ease;
-  width: 80%;padding: 5px 10px 10px 3px;
-  border-radius: 10px;color: black;
+  color: black;
+  background-color: white;
 }
-.input-container-focus-light{
-   display: flex;
-  flex-direction: column;
-  gap: 10px;height: 110px;
-  width: 80%;padding: 5px 10px 10px 3px;
-  border-radius: 10px;
+
+.input-container-focus-light {
   border: 1px solid rgb(0, 137, 200);
   box-shadow: 0 0 10px 2px rgba(88, 171, 255, 0.178);
   cursor: pointer;
 }
 
-
-
 .chat-input-light {
-  width: 95%;
-  min-height: 80px;
+  width: 100%;
+  min-height: 60px;
   font-size: 1rem;
-  border: none;background-color: transparent;
+  border: none;
+  background-color: transparent;
   padding: 8px;
   border-radius: 5px;
   resize: none;
+  color: black;
 }
 
 .chat-input-light:focus {
@@ -46,12 +51,13 @@
 
 .message-send-light {
   position: absolute;
-  right: -2px;
+  right: 15px;
   top: 10px;
   font-size: 24px;
   cursor: pointer;
   background: none;
   border: none;
+  color: black;
 }
 
 .message-send-light:disabled {
@@ -59,13 +65,36 @@
   cursor: not-allowed;
 }
 
-
-
-.char-counter-light{
-  font-size: 0.8rem;
+.char-counter-light {
+  font-size: 0.75rem;
   position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: #000000;
+  bottom: 5px;
+  right: 10px;
   color: black;
+}
+
+/* Media Queries for smaller screens */
+@media screen and (max-width: 768px) {
+  .input-container-light,
+  .input-container-focus-light {
+    width: 90%;
+    height: auto;
+  }
+
+  .chat-input-light {
+    min-height: 50px;
+    font-size: 0.9rem;
+  }
+
+  .message-send-light {
+    font-size: 20px;
+    right: 10px;
+    top: 10px;
+  }
+
+  .char-counter-light {
+    font-size: 0.7rem;
+    right: 8px;
+    bottom: 5px;
+  }
 }
