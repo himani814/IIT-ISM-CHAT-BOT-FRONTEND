@@ -184,24 +184,33 @@
   margin-left: 0.5rem;
 }
 
-/* ================= Responsive Design ================= */
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================= Responsive Design ================= */
 @media (max-width: 768px) {
   .chat-top-bar-dark {
-    flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    height: auto;
+    gap: 10px;position: fixed;top: 0;
+    height: 90px;background-color: rgb(56, 53, 53);
   }
 
   .chat-top-right-div-dark {
     flex-direction: column;
-    width: 100%;
     align-items: flex-start;
   }
 
   .search-bar {
-    width: 100%;
     margin: 10px 0;
   }
 
@@ -214,7 +223,6 @@
 
   .pc-recent-chats-dark {
     max-width: 100%;
-    flex-direction: column;
     align-items: flex-start;
   }
 
