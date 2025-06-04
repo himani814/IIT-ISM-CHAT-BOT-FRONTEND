@@ -17,9 +17,9 @@ const ChatMessages = ({
   messages,
   isloading,
   setMessages,
-  messagesEndRef,
+  messagesEndRef,inputMessage, setInputMessage,
+  handleSendSuggestion
 }) => {
-  const [inputMessage, setInputMessage] = useState("");
   const inputRef = useRef(null);
   const { sendMessage, isLoading, error } = useChatApi();
 
@@ -34,15 +34,6 @@ const ChatMessages = ({
     return id;
   });
 
-  // ✅ Save messages to the current chat
-  const saveMessagesToCookie = (messages) => {
-    const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
-    allChats[chatId] = {
-      timestamp: new Date().toISOString(),
-      messages,
-    };
-    Cookies.set("chatHistory", JSON.stringify(allChats), { expires: 7 });
-  };
 
   // ✅ Load current chat history on mount
   useEffect(() => {
@@ -51,32 +42,10 @@ const ChatMessages = ({
     setMessages(currentMessages);
   }, [chatId]);
 
-  const handleSend = async (messageOverride = null) => {
-    const message = messageOverride || inputMessage.trim();
-    if (!message) return;
-
-    const userMessage = message;
-    const newMessages = [...messages, { type: "user", text: userMessage }];
-    setMessages(newMessages);
-    setInputMessage("");
-
-    setTimeout(() => inputRef.current?.focus(), 50);
-
-    const botResponse = await sendMessage(userMessage);
-
-    const finalMessages = botResponse
-      ? [...newMessages, { type: "bot", text: botResponse }]
-      : [...newMessages, { type: "bot", text: `Error: ${error}` }];
-
-    setMessages(finalMessages);
-    saveMessagesToCookie(finalMessages);
-  };
-
   const handleSuggestionClick = (question) => {
-    setInputMessage(question);
-    handleSend(question);
+    handleSendSuggestion(question);
   };
-  console.log(isLoading);
+
   return (
     <section className={`chat-screen-${theme}`}>
       {messages.length <= 0 ? (
@@ -96,7 +65,7 @@ const ChatMessages = ({
               <div
                 key={index}
                 className={`card-item-${theme}`}
-                // onClick={() => handleSuggestionClick(question)}
+                onClick={() => handleSuggestionClick(question)}
                 style={{ cursor: "pointer" }}
               >
                 <p>{question}</p>

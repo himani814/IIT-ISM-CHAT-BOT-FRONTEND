@@ -121,8 +121,29 @@ const ChatPage = () => {
   // Send a message to the API, append to messages, then save to cookie
   const handleSend = async () => {
     if (!inputMessage.trim()) return;
+    alert(inputMessage)
 
     const userMessage = inputMessage.trim();
+    const newMessages = [...messages, { type: "user", text: userMessage }];
+    setMessages(newMessages);
+    setInputMessage("");
+
+    // Refocus the input after a short delay
+    setTimeout(() => inputRef.current?.focus(), 50);
+
+    const botResponse = await sendMessage(userMessage);
+
+    const finalMessages = botResponse
+      ? [...newMessages, { type: "bot", text: botResponse }]
+      : [...newMessages, { type: "bot", text: `Error: ${error}` }];
+
+    setMessages(finalMessages);
+    saveMessagesToCookie(finalMessages);
+  };
+  const handleSendSuggestion = async (suggestion) => {
+    if (!suggestion.trim()) return;
+
+    const userMessage = suggestion.trim();
     const newMessages = [...messages, { type: "user", text: userMessage }];
     setMessages(newMessages);
     setInputMessage("");
@@ -205,6 +226,9 @@ const ChatPage = () => {
 
           <ChatMessages
             theme={theme}
+            handleSendSuggestion={handleSendSuggestion}
+            setInputMessage={setInputMessage}
+            inputMessage={inputMessage}
             messages={messages}
             isloading={isLoading}
             messagesEndRef={messagesEndRef}
