@@ -1,5 +1,5 @@
 .input-container-main-dark {
-  height: 14vh;
+  height: 20vh;
   width: 100vw;
   position: fixed;
   display: flex;
@@ -8,7 +8,7 @@
   padding-top: 5px;
   bottom: 0;
   background-color: #021526;
-  z-index: 1000;
+  z-index: 1000;margin-bottom: 20px;
 }
 
 .input-container-dark,
@@ -16,8 +16,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 10vh;
-  width: 90%;
+  height: 90%;
+  width: 80%;
   max-width: 800px;
   padding: 5px 10px 10px 3px;
   border-radius: 10px;
@@ -29,12 +29,13 @@
 
 .input-container-focus-dark {
   box-shadow: 0 0 10px 2px #4c3bcf65;
-  cursor: pointer;
+  cursor: pointer;;
 }
 
 .chat-input-dark {
-  width: 100%;
-  min-height: 60px;
+  width: 100%;max-width: 90%;
+  min-height: 15vh;
+  max-height: 15vh;
   font-size: 1rem;
   border: none;
   background-color: transparent;
@@ -78,6 +79,18 @@
 
 /* Media Queries for smaller screens */
 @media screen and (max-width: 768px) {
+  .input-container-main-dark{
+  background-color: #021526;
+     height: 10%;
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  bottom: 0;
+  z-index: 1000;
+  }
   .input-container-dark,
   .input-container-focus-dark {
     width: 90%;
