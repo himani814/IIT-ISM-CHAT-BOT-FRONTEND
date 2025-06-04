@@ -22,6 +22,7 @@ const Header = ({
 
   return (
     <header className={`chat-top-bar-${theme}`}>
+      
       {/* ←‐ Home‐Button */}
       <button
         className={`chat-page-back-button-${theme}`}
