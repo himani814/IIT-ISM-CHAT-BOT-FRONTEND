@@ -76,16 +76,22 @@ const ChatMessages = ({
       ) : (
         <div className={`chat-messages-${theme}`}>
           {messages.map((msg, idx) => (
-            <div>
+            <div style={{padding:"20px"}}>
+
               {msg.type !== "user" && (
                 <div className={`bot-icon-div-${theme}`}>
                   <img src={bot_icon} />
                   <p>ISM BUDDY</p>
                 </div>
               )}
+
               <div
                 key={idx}
-                className={`chat-message-p-${theme}`}
+                className={`chat-message-p-${theme} ${
+                    msg.type === "user"
+                      ? `user-chat-message-p-${theme}`
+                      : `bot-chat-message-p-${theme}`
+                  }`}
               >
                 <div
                   key={idx}
