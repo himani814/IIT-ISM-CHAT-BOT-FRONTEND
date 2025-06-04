@@ -1,5 +1,7 @@
+
+
 .input-container-main-light {
-  height: 14vh;
+  height: 20vh;
   width: 100vw;
   position: fixed;
   display: flex;
@@ -8,22 +10,23 @@
   padding-top: 5px;
   bottom: 0;
   background-color: white;
-  z-index: 1000;
+  z-index: 1000;margin-bottom: 5px;
+  padding: 10px;
 }
 
-.input-container-light,
+.input-container-light ,
 .input-container-focus-light {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 10vh;
-  width: 90%;
+  height: 90%;
+  width: 80%;
   max-width: 800px;
   padding: 5px 10px 10px 3px;
   border-radius: 10px;
-  border: 1px solid #3674B5;
   transition: border 0.3s ease, box-shadow 0.3s ease;
   color: black;
+  border: 1px solid #3674B5;
   background-color: white;
 }
 
@@ -34,18 +37,24 @@
 }
 
 .chat-input-light {
-  width: 100%;
-  min-height: 60px;
+  width: 100%;max-width: 90%;
+  min-height: 15vh;
+  max-height: 15vh;
   font-size: 1rem;
   border: none;
   background-color: transparent;
   padding: 8px;
   border-radius: 5px;
   resize: none;
-  color: black;
+  color: black;outline: none;border: none;
 }
 
-.chat-input-light:focus {
+.chat-input-light ::placeholder {
+  color: white;border: none;
+  outline: none;
+}
+
+.chat-input-light :focus {
   outline: none;
 }
 
@@ -57,11 +66,11 @@
   cursor: pointer;
   background: none;
   border: none;
-  color: black;
+  color: rgb(0, 0, 0);
 }
 
-.message-send-light:disabled {
-  color: #302f2f;
+.message-send-light :disabled {
+  color: #000000;
   cursor: not-allowed;
 }
 
@@ -70,12 +79,24 @@
   position: absolute;
   bottom: 5px;
   right: 10px;
-  color: black;
+  color: #000000;
 }
 
 /* Media Queries for smaller screens */
 @media screen and (max-width: 768px) {
-  .input-container-light,
+  .input-container-main-light {
+  background-color: #021526;
+     height: 10%;
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  bottom: 0;
+  z-index: 1000;
+  }
+  .input-container-light ,
   .input-container-focus-light {
     width: 90%;
     height: auto;
