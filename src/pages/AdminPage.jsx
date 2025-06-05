@@ -52,7 +52,7 @@ const PDFManager = () => {
 
       setUploadedFiles((prev) => [
         { name, max_id, docId: metaResponse.$id },
-        ...prev, // show new upload at top
+        ...prev,
       ]);
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
@@ -66,6 +66,9 @@ const PDFManager = () => {
   };
 
   const handleDelete = async (name, max_id) => {
+    const confirm = window.confirm(`Are you sure you want to delete "${name}"?`);
+    if (!confirm) return;
+
     try {
       await axios.post("https://bckd.onrender.com/delete", {
         name: `${name}`,
@@ -94,8 +97,8 @@ const PDFManager = () => {
         docId: doc.$id,
       }));
 
-      setUploadedFiles((prev) => [...prev, ...files]);
-      if (files.length < LIMIT) setHasMore(false);
+      setUploadedFiles(files);
+      setHasMore(files.length === LIMIT);
     } catch (error) {
       console.error("Failed to fetch files:", error);
       setStatus("❌ Failed to load uploaded files.");
@@ -105,6 +108,9 @@ const PDFManager = () => {
   useEffect(() => {
     loadFiles(page);
   }, [page]);
+
+  const handleNextPage = () => setPage((prev) => prev + 1);
+  const handlePrevPage = () => setPage((prev) => Math.max(prev - 1, 0));
 
   return (
     <div className="pdf-container">
@@ -143,6 +149,7 @@ const PDFManager = () => {
       {status && <p className="status-msg">{status}</p>}
 
       <div className="uploaded-list">
+        {uploadedFiles.length === 0 && <p>No files found.</p>}
         {uploadedFiles.map((file, idx) => (
           <div key={idx} className="file-card">
             <div className="file-info">
@@ -159,14 +166,15 @@ const PDFManager = () => {
         ))}
       </div>
 
-      {hasMore && (
-        <button
-          className="btn-load-more"
-          onClick={() => setPage((prev) => prev + 1)}
-        >
-          Load More
+      <div className="pagination-controls">
+        <button onClick={handlePrevPage} disabled={page === 0}>
+          ◀ Prev
         </button>
-      )}
+        <span style={{ margin: "0 10px" }}>Page {page + 1}</span>
+        <button onClick={handleNextPage} disabled={!hasMore}>
+          Next ▶
+        </button>
+      </div>
     </div>
   );
 };
