@@ -1,4 +1,4 @@
-import { Client, Account, Databases } from "appwrite";
+import { Client, Account, Databases,Query } from "appwrite";
 
 const client = new Client()
   .setEndpoint("https://fra.cloud.appwrite.io/v1")
@@ -28,14 +28,18 @@ export const storeFileMeta = async (name, max_id) => {
   }
 };
 
-// ✅ Fetch all files
-export const fetchAllFiles = async () => {
+export const fetchAllFiles = async (offset = 0, limit = 10) => {
   try {
     const response = await databases.listDocuments(
       DATABASE_ID,
-      COLLECTION_ID
+      COLLECTION_ID,
+      [
+        Query.limit(limit),
+        Query.offset(offset),
+        Query.orderDesc("$createdAt"), // optional: to get latest files first
+      ]
     );
-    return response.documents; // array of all documents
+    return response.documents;
   } catch (error) {
     console.error("Fetch Error:", error);
     throw error;

@@ -7,13 +7,17 @@ import {
 } from "../../appwrite/appwriteUploadPdf.js";
 import "../styles/adminPage.css";
 
+const LIMIT = 10;
+
 const PDFManager = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
-  const [fileType, setFileType] = useState("pdf"); // "pdf" or "text"
+  const [fileType, setFileType] = useState("pdf");
   const [status, setStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -42,14 +46,13 @@ const PDFManager = () => {
       const response = await axios.post(uploadUrl, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response);
-      const max_id = response.data.max_id || 0;
 
+      const max_id = response.data.max_id || 0;
       const metaResponse = await storeFileMeta(name, max_id);
 
       setUploadedFiles((prev) => [
-        ...prev,
         { name, max_id, docId: metaResponse.$id },
+        ...prev, // show new upload at top
       ]);
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
@@ -65,12 +68,11 @@ const PDFManager = () => {
   const handleDelete = async (name, max_id) => {
     try {
       await axios.post("https://bckd.onrender.com/delete", {
-        name:`${name}`,
+        name: `${name}`,
         max_id: parseInt(max_id),
       });
 
       const fileToDelete = uploadedFiles.find((f) => f.name === name);
-
       if (fileToDelete?.docId) {
         await deleteFileMeta(fileToDelete.docId);
       }
@@ -83,24 +85,26 @@ const PDFManager = () => {
     }
   };
 
-  useEffect(() => {
-    const loadFiles = async () => {
-      try {
-        const documents = await fetchAllFiles();
-        const files = documents.map((doc) => ({
-          name: doc.NAME,
-          max_id: doc.MAX_SIZE,
-          docId: doc.$id,
-        }));
-        setUploadedFiles(files);
-      } catch (error) {
-        console.error("Failed to fetch files:", error);
-        setStatus("❌ Failed to load uploaded files.");
-      }
-    };
+  const loadFiles = async (pageNumber) => {
+    try {
+      const documents = await fetchAllFiles(pageNumber * LIMIT, LIMIT);
+      const files = documents.map((doc) => ({
+        name: doc.NAME,
+        max_id: doc.MAX_SIZE,
+        docId: doc.$id,
+      }));
 
-    loadFiles();
-  }, []);
+      setUploadedFiles((prev) => [...prev, ...files]);
+      if (files.length < LIMIT) setHasMore(false);
+    } catch (error) {
+      console.error("Failed to fetch files:", error);
+      setStatus("❌ Failed to load uploaded files.");
+    }
+  };
+
+  useEffect(() => {
+    loadFiles(page);
+  }, [page]);
 
   return (
     <div className="pdf-container">
@@ -154,6 +158,15 @@ const PDFManager = () => {
           </div>
         ))}
       </div>
+
+      {hasMore && (
+        <button
+          className="btn-load-more"
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 };
