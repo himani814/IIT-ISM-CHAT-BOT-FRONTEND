@@ -1,3 +1,17 @@
+/* LIGHT MODE DARK MODE BUTTON */
+:root {
+  --light-bg: aliceblue;
+  --dark-bg: #021526;
+  --light-border: #ffffff;
+  --dark-border: #021526;
+  --hover-glow: rgba(0, 248, 248, 1);
+}
+
+
+
+
+
+
 .home-left-br-dark {
   display: flex;
   gap: 10px;
@@ -7,12 +21,12 @@
   z-index: 999;
 }
 .theme-toggle-dark-dark {
-  background-color: var(--dark-bg);
+  background-color: #021526;
   border-color: var(--dark-border);
 }
 
 .theme-toggle-dark-dark {
-  background-color: var(--dark-bg);
+  background-color: #021526;
   border-color: var(--dark-border);
 }
 
@@ -24,14 +38,14 @@
 .home-dark {
    max-width: 100vw;
   height: 100vh;
-  max-height: calc(100vh - 120px);
+  max-height: calc(100vh - 110px);
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 50px;
   padding: 20px 50px;
   flex-wrap: wrap;
-  margin: auto;
+  margin: auto;background-color: #021526;
 }
 
 .home-left-dark {
@@ -157,14 +171,6 @@
 
 
 
-/* LIGHT MODE DARK MODE BUTTON */
-:root {
-  --light-bg: aliceblue;
-  --dark-bg: #1b1919;
-  --light-border: #ffffff;
-  --dark-border: #363636;
-  --hover-glow: rgba(0, 248, 248, 1);
-}
 
 .home-left-br-dark {
   display: flex;
@@ -191,7 +197,7 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 0 0 transparent;
-  background-color:#363636 ;
+  background-color: #021526;
   border-color: rgb(50, 50, 50);
 }
 

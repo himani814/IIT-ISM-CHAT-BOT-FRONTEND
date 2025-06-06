@@ -154,7 +154,7 @@ function Home() {
   return (
     <>
       <NavBar theme={themes}/>
-      <div className={`home-${theme} ${theme}`}>
+      <div className={`home-${theme}`}>
         <div className={`home-left-${theme}`}>
           <div className={`home-left-1-${theme}`}>
             Hi, it's <p>ISM BUDDY</p>

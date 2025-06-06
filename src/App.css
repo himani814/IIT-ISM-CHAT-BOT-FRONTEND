@@ -1,5 +1,7 @@
 
-
+*{
+  background-color: transparent;
+}
 
 /* In singleShop.css */
 .fallback-loading-img {
