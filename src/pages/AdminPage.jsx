@@ -9,12 +9,20 @@ import "../styles/adminPage.css";
 
 const LIMIT = 10;
 
+const modelCosts = {
+  "gpt-4o-mini": "Cheapest",
+  "o4-mini": "Cheapest",
+  "gpt-3.5-turbo": "Moderate",
+  "gpt-4-turbo": "Costly",
+  "gpt-4o": "Most Costly",
+};
+
 const PDFManager = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
   const [fileType, setFileType] = useState("pdf");
   const [model, setModel] = useState("gpt-4o-mini");
-  const [prompt, setPrompt] = useState("");   // New prompt state
+  const [prompt, setPrompt] = useState(""); // New prompt state
   const [status, setStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,7 +44,7 @@ const PDFManager = () => {
     formData.append("file", file);
     formData.append("name", name);
     formData.append("model", model);
-    formData.append("prompt", prompt);  // Add prompt to formData
+    formData.append("prompt", prompt); // Add prompt to formData
 
     setLoading(true);
     setStatus("⏳ Uploading...");
@@ -61,7 +69,7 @@ const PDFManager = () => {
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
       setFile(null);
-      setPrompt("");   // Clear prompt after upload
+      setPrompt(""); // Clear prompt after upload
     } catch (error) {
       console.error(error);
       setStatus("❌ Upload or saving metadata failed.");
@@ -144,11 +152,11 @@ const PDFManager = () => {
           onChange={(e) => setModel(e.target.value)}
           className="input-select"
         >
-          <option value="gpt-4o-mini">gpt-4o-mini</option>
-          <option value="gpt-4o">GPT-4 Omni</option>
-          <option value="gpt-4-turbo">GPT-4 Turbo</option>
-          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-          <option value="o4-mini">O4 Mini</option>
+          {Object.entries(modelCosts).map(([modelKey, cost]) => (
+            <option key={modelKey} value={modelKey}>
+              {modelKey} ({cost})
+            </option>
+          ))}
         </select>
 
         <textarea
