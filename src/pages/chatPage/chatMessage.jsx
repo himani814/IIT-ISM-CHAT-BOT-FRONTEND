@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import logo from "../../assets/iit-white.png";
+import logo from "../../assets/iit-logo-light.png";
 import bot_icon from "../../assets/bot-icon.png";
 import user_icon from "../../assets/user-icon.png";
 

@@ -151,14 +151,43 @@
 
 
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .top-bar {
-    flex-wrap: wrap;
+
+/* ================= Responsive Design ================= */
+
+@media (max-width: 480px) {
+  .chat-top-bar-light {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  gap: 20px;position: fixed;top: 0;
+  padding: 7px;
+  width: calc(100% - 14px);
+  flex-wrap: wrap;z-index: 9999999;background-color: #ffffff;
+}
+  .top-bar h2 {
+    font-size: 1rem;
   }
 
   .search-bar {
-    width: 100%;
-    margin: 10px 0;
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+  
+  .chat-version-light{
+    display: none;
+  }
+  .create-task-light,
+  .delete-session-button-light {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .goplus-new-light {
+    font-size: 20px;
+  }
+
+  .pc-chat-date-text-light {
+    font-size: 0.9rem;
   }
 }

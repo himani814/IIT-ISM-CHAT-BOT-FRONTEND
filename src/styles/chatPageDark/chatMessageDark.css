@@ -27,8 +27,9 @@
   height: 100px;
   margin-bottom: 20px;
   background-color: white;
+  
   padding: 10px;
-  border-radius: 13px;
+  border-radius: 35px;
   animation: bounceShake 2.5s infinite ease-in-out;
   transform-origin: top center;
 }

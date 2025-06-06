@@ -82,10 +82,14 @@
   color: #000000;
 }
 
+
+
+
+
 /* Media Queries for smaller screens */
 @media screen and (max-width: 768px) {
-  .input-container-main-light {
-  background-color: #021526;
+  .input-container-main-light{
+  background-color: #ffffff;
      height: 10%;
   width: 100vw;
   position: fixed;
@@ -96,7 +100,7 @@
   bottom: 0;
   z-index: 1000;
   }
-  .input-container-light ,
+  .input-container-light,
   .input-container-focus-light {
     width: 90%;
     height: auto;
