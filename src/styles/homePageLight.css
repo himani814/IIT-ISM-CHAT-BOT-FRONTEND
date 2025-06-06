@@ -225,7 +225,8 @@
   width: 75%;border-radius: 40%;
   padding: 40px;
   background-color: #3674B5;
-  
+  background-color: white;
+  border: 1px solid black;
   animation: bounceShake 2.5s infinite ease-in-out;
   transform-origin: top center; /* Makes it swing from the top */
 }

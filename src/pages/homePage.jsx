@@ -5,8 +5,12 @@ import { account } from "../../appwrite/AppwriteConfig.js";
 import Cookies from "js-cookie";
 
 import NavBar from "../components/Navbar.jsx";
+
 import logoLight from "../assets/iit-ism-light.png";
 import logoDark from "../assets/cyan.png";
+
+import iitlogoLight from "../assets/iit-logo-light.png";
+
 import TypeAnimation from "../utils/typeAnimation.jsx";
 
 import "../styles/homePageLight.css";
@@ -240,7 +244,7 @@ function Home() {
         </div>
 
         <div className={`home-right-${theme}`}>
-          <img src={theme=='light' ? logoLight : logoDark} alt="Logo" />
+          <img src={theme=='light' ? iitlogoLight :iitlogoLight} alt="Logo" />
         </div>
       </div>
     </>
