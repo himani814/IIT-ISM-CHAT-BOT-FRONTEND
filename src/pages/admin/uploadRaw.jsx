@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { storeFileMeta } from "../../../appwrite/appwriteUploadRaw.js";
+import {
+  storeFileMeta,
+  deleteFileMeta,
+  fetchAllFiles,
+} from "../../../appwrite/appwriteUploadRaw.js";
 import "../../styles/adminPage.css";
 
 const server = "https://bckd.onrender.com";
@@ -12,6 +16,29 @@ const PDFManager = () => {
   const [dataEntries, setDataEntries] = useState([]);
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const ITEMS_PER_PAGE = 5;
+
+  useEffect(() => {
+    const loadFiles = async () => {
+      try {
+        const files = await fetchAllFiles();
+        console.log(files)
+        setUploadedFiles(files);
+        setHasMore(files.length > ITEMS_PER_PAGE);
+      } catch (error) {
+        console.error("Fetch files error:", error);
+      }
+    };
+    loadFiles();
+  }, []);
+
+  const paginatedFiles = uploadedFiles.slice(
+    page * ITEMS_PER_PAGE,
+    (page + 1) * ITEMS_PER_PAGE
+  );
 
   const handleAddEntry = () => {
     if (!entryText.trim()) {
@@ -37,7 +64,6 @@ const PDFManager = () => {
     }
 
     const id = `${name}${dataEntries.length + 1}`;
-
     const newEntry = {
       _id: id,
       text: entryText.trim(),
@@ -68,8 +94,12 @@ const PDFManager = () => {
       const response = await axios.post(`${server}/upload/raw`, payload);
       const max_id = response.data.max_id || 0;
 
-      await storeFileMeta(name.trim(), max_id);
+      const docId = await storeFileMeta(name.trim(), max_id);
 
+      setUploadedFiles((prev) => [
+        { name: name.trim(), max_id, docId },
+        ...prev,
+      ]);
       setStatus("✅ Uploaded successfully.");
       setName("");
       setDataEntries([]);
@@ -79,6 +109,41 @@ const PDFManager = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDelete = async (NAME, MAX_SIZE) => {
+    const confirm = window.confirm(`Are you sure you want to delete "${name}"?`);
+    if (!confirm) return;
+
+    try {
+      await axios.post(`${server}/delete`, {
+        name: NAME,
+        max_id: parseInt(MAX_SIZE),
+      });
+
+      const fileToDelete = uploadedFiles.find((f) => f.name === name);
+      if (fileToDelete?.docId) {
+        await deleteFileMeta(fileToDelete.docId);
+      }
+
+      const updatedFiles = uploadedFiles.filter((f) => f.name !== name);
+      setUploadedFiles(updatedFiles);
+      setHasMore(updatedFiles.length > (page + 1) * ITEMS_PER_PAGE);
+      setStatus("🗑️ File deleted from backend and database.");
+    } catch (error) {
+      console.error("Delete error:", error);
+      setStatus("❌ Delete failed.");
+    }
+  };
+
+  const handleNextPage = () => {
+    if ((page + 1) * ITEMS_PER_PAGE < uploadedFiles.length) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 0) setPage((prev) => prev - 1);
   };
 
   return (
@@ -131,6 +196,40 @@ const PDFManager = () => {
           ))}
         </div>
       )}
+
+      <div className="uploaded-list">
+        {paginatedFiles.length === 0 ? (
+          <p>No files found.</p>
+        ) : (
+          paginatedFiles.map((file, idx) => (
+            <div key={idx} className="file-card">
+              <div className="file-info">
+                <strong>{file.NAME}</strong>
+                <p>NUMBER_CHUNK: {file.MAX_SIZE}</p>
+              </div>
+              <button
+                className="btn-delete"
+                onClick={() => handleDelete(file.name, file.max_id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="pagination-controls">
+        <button onClick={handlePrevPage} disabled={page === 0}>
+          ◀ Prev
+        </button>
+        <span style={{ margin: "0 10px" }}>Page {page + 1}</span>
+        <button
+          onClick={handleNextPage}
+          disabled={(page + 1) * ITEMS_PER_PAGE >= uploadedFiles.length}
+        >
+          Next ▶
+        </button>
+      </div>
     </div>
   );
 };

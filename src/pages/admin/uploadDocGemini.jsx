@@ -68,27 +68,26 @@ const PDFManager = () => {
   };
 
   const handleDelete = async (name, max_id) => {
-    alert("for now can not delete")
-    // const confirm = window.confirm(`Are you sure you want to delete "${name}"?`);
-    // if (!confirm) return;
+    const confirm = window.confirm(`Are you sure you want to delete "${name}"?`);
+    if (!confirm) return;
 
-    // try {
-    //   await axios.post(`${server}/delete`, {
-    //     name: name,
-    //     max_id: parseInt(max_id),
-    //   });
+    try {
+      await axios.post(`${server}/delete`, {
+        name: name,
+        max_id: parseInt(max_id),
+      });
 
-    //   const fileToDelete = uploadedFiles.find((f) => f.name === name);
-    //   if (fileToDelete?.docId) {
-    //     await deleteFileMeta(fileToDelete.docId);
-    //   }
+      const fileToDelete = uploadedFiles.find((f) => f.name === name);
+      if (fileToDelete?.docId) {
+        await deleteFileMeta(fileToDelete.docId);
+      }
 
-    //   setUploadedFiles((prev) => prev.filter((f) => f.name !== name));
-    //   setStatus("🗑️ File deleted from backend and database.");
-    // } catch (error) {
-    //   console.error("Delete error:", error);
-    //   setStatus("❌ Delete failed.");
-    // }
+      setUploadedFiles((prev) => prev.filter((f) => f.name !== name));
+      setStatus("🗑️ File deleted from backend and database.");
+    } catch (error) {
+      console.error("Delete error:", error);
+      setStatus("❌ Delete failed.");
+    }
   };
 
   const loadFiles = async (pageNumber) => {
