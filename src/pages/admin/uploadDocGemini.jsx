@@ -50,7 +50,7 @@ const PDFManager = () => {
 
       const max_id = response.data.max_id || 0;
       const metaResponse = await storeFileMeta(name, max_id);
-
+      console.log(metaResponse)
       setUploadedFiles((prev) => [
         { name, max_id, docId: metaResponse.$id },
         ...prev,
@@ -93,6 +93,7 @@ const PDFManager = () => {
   const loadFiles = async (pageNumber) => {
     try {
       const documents = await fetchAllFiles(pageNumber * LIMIT, LIMIT);
+      console.log(documents)
       const files = documents.map((doc) => ({
         name: doc.NAME,
         max_id: doc.MAX_SIZE,

@@ -30,14 +30,14 @@ const App = () => {
               </AdminPrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/admin/upload/iit-ism-llama-text-embed-v2-index"
             element={
               <AdminPrivateRoute>
                 <AdminUploadRaw />
               </AdminPrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="/admin/upload/iit-ism-llama-text-embed-v2-index"
             element={
