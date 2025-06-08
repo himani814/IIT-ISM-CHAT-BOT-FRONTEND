@@ -22,22 +22,22 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/admin"
             element={
               <AdminPrivateRoute>
                 <Admin />
               </AdminPrivateRoute>
             }
-          />
-          {/* <Route
-            path="/admin/upload/iit-ism-llama-text-embed-v2-index"
+          /> */}
+          <Route
+            path="/admin/upload/raw/iit-ism-llama-text-embed-v2-index"
             element={
               <AdminPrivateRoute>
                 <AdminUploadRaw />
               </AdminPrivateRoute>
             }
-          /> */}
+          />
           <Route
             path="/admin/upload/iit-ism-llama-text-embed-v2-index"
             element={
