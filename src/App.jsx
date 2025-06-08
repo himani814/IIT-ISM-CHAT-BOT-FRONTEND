@@ -1,6 +1,8 @@
 import Index from './pages/homePage.jsx';
 import ChatPage from './pages/chatPage/chatPage.jsx';
 import Admin from './pages/AdminPage.jsx';
+import AdminUploadRaw from './pages/admin/uploadRaw.jsx';
+import AdminUploadLlama from './pages/admin/uploadDocGemini.jsx';
 import AdminLogin from './pages/AdminLogin.jsx';
 import PrivateRoute from './secure/privateRoute.jsx';
 import AdminPrivateRoute from './secure/adminPrivateRoute.jsx';
@@ -25,6 +27,22 @@ const App = () => {
             element={
               <AdminPrivateRoute>
                 <Admin />
+              </AdminPrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/upload"
+            element={
+              <AdminPrivateRoute>
+                <AdminUploadRaw />
+              </AdminPrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/upload/iit-ism-llama-text-embed-v2-index"
+            element={
+              <AdminPrivateRoute>
+                <AdminUploadLlama />
               </AdminPrivateRoute>
             }
           />

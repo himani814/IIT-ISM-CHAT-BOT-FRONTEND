@@ -4,26 +4,16 @@ import {
   storeFileMeta,
   fetchAllFiles,
   deleteFileMeta,
-} from "../../appwrite/appwriteUploadPdf.js";
-import "../styles/adminPage.css";
+} from "../../../appwrite/admin/uploadDocGemini";
+import "../../styles/adminPage.css";
 
 const LIMIT = 10;
-const server="https://bckd.onrender.com"
-
-const modelCosts = {
-  "gpt-4o-mini": "Cheapest",
-  "o4-mini": "Cheapest",
-  "gpt-3.5-turbo": "Moderate",
-  "gpt-4-turbo": "Costly",
-  "gpt-4o": "Most Costly",
-};
+const server = "https://bckd.onrender.com";
 
 const PDFManager = () => {
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
   const [fileType, setFileType] = useState("pdf");
-  const [model, setModel] = useState("gpt-4o-mini");
-  const [prompt, setPrompt] = useState(""); // New prompt state
   const [status, setStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,9 +33,7 @@ const PDFManager = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("name", name);
-    formData.append("model", model);
-    formData.append("prompt", prompt); // Add prompt to formData
+    formData.append("filename", name); // corrected here
 
     setLoading(true);
     setStatus("⏳ Uploading...");
@@ -53,8 +41,8 @@ const PDFManager = () => {
     try {
       const uploadUrl =
         fileType === "pdf"
-          ? `${server}/upload/pdf`
-          : `${server}/upload/text`;
+          ? `${server}/upload/gemini/pdf`
+          : `${server}/upload/gemini/text`;
 
       const response = await axios.post(uploadUrl, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -67,10 +55,10 @@ const PDFManager = () => {
         { name, max_id, docId: metaResponse.$id },
         ...prev,
       ]);
+
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
       setFile(null);
-      setPrompt(""); // Clear prompt after upload
     } catch (error) {
       console.error(error);
       setStatus("❌ Upload or saving metadata failed.");
@@ -85,7 +73,7 @@ const PDFManager = () => {
 
     try {
       await axios.post(`${server}/delete`, {
-        name: `${name}`,
+        name: name,
         max_id: parseInt(max_id),
       });
 
@@ -147,27 +135,6 @@ const PDFManager = () => {
           <option value="pdf">PDF</option>
           <option value="text">Text</option>
         </select>
-
-        <select
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-          className="input-select"
-        >
-          {Object.entries(modelCosts).map(([modelKey, cost]) => (
-            <option key={modelKey} value={modelKey}>
-              {modelKey} ({cost})
-            </option>
-          ))}
-        </select>
-
-        <textarea
-          placeholder="Enter prompt for processing (use '{{chunk}}' as placeholder for chunk text)"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          className="input-textarea"
-          rows={4}
-          style={{ marginTop: "10px", resize: "vertical" }}
-        />
 
         <input
           type="file"

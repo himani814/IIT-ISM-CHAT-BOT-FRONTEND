@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+const server="https://bckd.onrender.com/testing"
+// const server='https://bckd.onrender.com/testing'
+
 const useChatApi = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,8 +13,8 @@ const useChatApi = () => {
     setError(null);
 
     try {
-      const response = await axios.post('https://bckd.onrender.com/testing', { "message": query });
-
+      const response = await axios.post(server, { "message": query });
+      
       return response.data.response;
     } catch (err) {
       let customError = err.message;
