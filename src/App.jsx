@@ -31,7 +31,7 @@ const App = () => {
             }
           />
           <Route
-            path="/admin/upload"
+            path="/admin/upload/iit-ism-llama-text-embed-v2-index"
             element={
               <AdminPrivateRoute>
                 <AdminUploadRaw />
