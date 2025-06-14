@@ -21,6 +21,7 @@ import "../../styles/chatPageDark/chatInputDark.css";
 const ChatPage = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [followUpQuestions, setFollowUpQuestions] = useState([]);
   const [chatHistory, setChatHistory] = useState({});
   const [currentChatId, setCurrentChatId] = useState(null);
   const { sendMessage, isLoading, error } = useChatApi();
@@ -32,30 +33,39 @@ const ChatPage = () => {
 
   const getToday = () => new Date().toISOString().split("T")[0];
 
-  // Save messages for the current chatId into cookies and update chatHistory state
-  const saveMessagesToCookie = (msgs) => {
+  // Save messages and followUpQuestions for the current chatId into cookies and update chatHistory state
+  const saveChatSessionToCookie = (msgs, followUps = []) => {
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
     const chatId = currentChatId || getToday();
-    allChats[chatId] = msgs;
+
+    allChats[chatId] = {
+      messages: msgs,
+      followUpQuestions: followUps,
+    };
+
     Cookies.set("chatHistory", JSON.stringify(allChats), { expires: 7 });
     setChatHistory(allChats);
   };
 
-  // Load today's messages (if any) when the component first mounts
+  // Load today's chat data (messages and followUps) when component first mounts
   const loadMessagesFromCookie = () => {
     const date = getToday();
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
     setChatHistory(allChats);
     setCurrentChatId(date);
-    return allChats[date] || [];
+
+    const chatData = allChats[date] || { messages: [], followUpQuestions: [] };
+    setFollowUpQuestions(chatData.followUpQuestions || []);
+    return chatData.messages;
   };
 
-  // Load messages for a given chatId from cookies (but do NOT set currentChatId here)
+  // Load messages and followUps for a given chatId from cookies (but do NOT set currentChatId here)
   const loadChat = (chatId) => {
-    console.log("ko")
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
-    const chatMessages = allChats[chatId] || [];
-    setMessages(chatMessages);
+    const chatData = allChats[chatId] || { messages: [], followUpQuestions: [] };
+
+    setMessages(chatData.messages);
+    setFollowUpQuestions(chatData.followUpQuestions || []);
   };
 
   // Create a fresh session key and clear messages, saving the old session first
@@ -65,12 +75,16 @@ const ChatPage = () => {
     const allChats = JSON.parse(Cookies.get("chatHistory") || "{}");
 
     if (messages.length > 0 && currentChatId) {
-      allChats[currentChatId] = messages;
+      allChats[currentChatId] = {
+        messages,
+        followUpQuestions,
+      };
     }
 
     Cookies.set("chatHistory", JSON.stringify(allChats), { expires: 7 });
     setChatHistory(allChats);
     setMessages([]);
+    setFollowUpQuestions([]);
     setCurrentChatId(sessionKey);
   };
 
@@ -84,6 +98,7 @@ const ChatPage = () => {
 
       if (chatId === currentChatId) {
         setMessages([]);
+        setFollowUpQuestions([]);
         setCurrentChatId(null);
       }
     }
@@ -107,7 +122,7 @@ const ChatPage = () => {
     }
   }, [messages, isLoading]);
 
-  // Whenever currentChatId changes, load its messages
+  // Whenever currentChatId changes, load its messages and followUpQuestions
   useEffect(() => {
     if (currentChatId) {
       loadChat(currentChatId);
@@ -124,6 +139,7 @@ const ChatPage = () => {
 
     const userMessage = inputMessage.trim();
     const newMessages = [...messages, { type: "user", text: userMessage }];
+
     setMessages(newMessages);
     setInputMessage("");
 
@@ -131,14 +147,25 @@ const ChatPage = () => {
     setTimeout(() => inputRef.current?.focus(), 50);
 
     const botResponse = await sendMessage(userMessage);
+    console.log(botResponse)
+    if (!botResponse) {
+      const errorMessages = [...newMessages, { type: "bot", text: `Error: ${error}` }];
+      setMessages(errorMessages);
+      saveChatSessionToCookie(errorMessages, []);
+      return;
+    }
 
-    const finalMessages = botResponse
-      ? [...newMessages, { type: "bot", text: botResponse }]
-      : [...newMessages, { type: "bot", text: `Error: ${error}` }];
+    // Destructure answer and followUpQuestions from your response
+    const { answer, follow_up_question} = botResponse;
+
+    // Add bot answer message with followUpQuestions included
+    const finalMessages = [...newMessages, { type: "bot", text: answer, follow_up_question }];
 
     setMessages(finalMessages);
-    saveMessagesToCookie(finalMessages);
+    setFollowUpQuestions(follow_up_question|| []);
+    saveChatSessionToCookie(finalMessages, follow_up_question || []);
   };
+
   const handleSendSuggestion = async (suggestion) => {
     if (!suggestion.trim()) return;
 
@@ -151,13 +178,23 @@ const ChatPage = () => {
     setTimeout(() => inputRef.current?.focus(), 50);
 
     const botResponse = await sendMessage(userMessage);
+    console.log(botResponse)
+    if (!botResponse) {
+      const errorMessages = [...newMessages, { type: "bot", text: `Error: ${error}` }];
+      setMessages(errorMessages);
+      saveChatSessionToCookie(errorMessages, []);
+      return;
+    }
 
-    const finalMessages = botResponse
-      ? [...newMessages, { type: "bot", text: botResponse }]
-      : [...newMessages, { type: "bot", text: `Error: ${error}` }];
+    // Destructure answer and followUpQuestions from your response
+    const { answer, follow_up_question} = botResponse;
+
+    // Add bot answer message with followUpQuestions included
+    const finalMessages = [...newMessages, { type: "bot", text: answer, follow_up_question }];
 
     setMessages(finalMessages);
-    saveMessagesToCookie(finalMessages);
+    setFollowUpQuestions(follow_up_question|| []);
+    saveChatSessionToCookie(finalMessages, follow_up_question || []);
   };
 
   // Pressing Enter in the input sends the message (if not already loading)
@@ -235,6 +272,8 @@ const ChatPage = () => {
             setMessages={setMessages}
             currentChatId={currentChatId}
             setCurrentChatId={setCurrentChatId}
+            followUpQuestions={followUpQuestions} // pass it if you want to render suggestions inside ChatMessages
+            setFollowUpQuestions={setFollowUpQuestions}
           />
 
           <ChatInput

@@ -43,8 +43,8 @@ const PDFManager = () => {
     try {
       const uploadUrl =
         fileType === "pdf"
-          ? `${server}/upload/gemini/pdf`
-          : `${server}/upload/gemini/text`;
+          ? `${server}/upload/pdf`
+          : `${server}/upload/text`;
 
       const response = await axios.post(uploadUrl, formData, {
         headers: { "Content-Type": "multipart/form-data" },
