@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
-  storeFileMeta,
   fetchAllFiles,
-  deleteFileMeta,
-} from "../../../appwrite/admin/uploadDocGemini";
+} from "../../../appwrite/admin/fetch_from_appwrite.js";
 import "../../styles/adminPage.css";
 
-const LIMIT = 10;
+
 const server = "https://bckd.onrender.com";
+// const server="http://localhost:8000";
+
 
 const PDFManager = () => {
+  const { folder_id: collection_id } = useParams();
+
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
   const [fileType, setFileType] = useState("pdf");
   const [status, setStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [loadingFiles, setLoadingFiles] = useState(true);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -33,7 +35,8 @@ const PDFManager = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("filename", name); // corrected here
+    formData.append("filename", name);
+    formData.append("collection_id", collection_id);
 
     setLoading(true);
     setStatus("⏳ Uploading...");
@@ -50,12 +53,14 @@ const PDFManager = () => {
 
       const max_id = response.data.max_id || 0;
       const metaResponse = await storeFileMeta(name, max_id);
-      console.log(metaResponse)
-      setUploadedFiles((prev) => [
-        { name, max_id, docId: metaResponse.$id },
-        ...prev,
-      ]);
 
+      const newFile = {
+        name,
+        max_id,
+        docId: metaResponse.$id,
+      };
+
+      setUploadedFiles((prev) => [newFile, ...prev]);
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
       setFile(null);
@@ -68,21 +73,24 @@ const PDFManager = () => {
   };
 
   const handleDelete = async (name, max_id) => {
-    const confirm = window.confirm(`Are you sure you want to delete "${name}"?`);
-    if (!confirm) return;
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${name}"?`);
+    if (!confirmDelete) return;
 
     try {
       await axios.post(`${server}/delete`, {
-        name: name,
+        name,
         max_id: parseInt(max_id),
       });
 
-      const fileToDelete = uploadedFiles.find((f) => f.name === name);
+      const fileToDelete = uploadedFiles.find(
+        (f) => f.name === name || f.NAME === name
+      );
+
       if (fileToDelete?.docId) {
         await deleteFileMeta(fileToDelete.docId);
       }
 
-      setUploadedFiles((prev) => prev.filter((f) => f.name !== name));
+      setUploadedFiles((prev) => prev.filter((f) => f.name !== name && f.NAME !== name));
       setStatus("🗑️ File deleted from backend and database.");
     } catch (error) {
       console.error("Delete error:", error);
@@ -90,30 +98,25 @@ const PDFManager = () => {
     }
   };
 
-  const loadFiles = async (pageNumber) => {
-    try {
-      const documents = await fetchAllFiles(pageNumber * LIMIT, LIMIT);
-      console.log(documents)
-      const files = documents.map((doc) => ({
-        name: doc.NAME,
-        max_id: doc.MAX_SIZE,
-        docId: doc.$id,
-      }));
-
-      setUploadedFiles(files);
-      setHasMore(files.length === LIMIT);
-    } catch (error) {
-      console.error("Failed to fetch files:", error);
-      setStatus("❌ Failed to load uploaded files.");
-    }
-  };
-
   useEffect(() => {
-    loadFiles(page);
-  }, [page]);
-
-  const handleNextPage = () => setPage((prev) => prev + 1);
-  const handlePrevPage = () => setPage((prev) => Math.max(prev - 1, 0));
+    const loadFiles = async () => {
+      setLoadingFiles(true);
+      try {
+        const files = await fetchAllFiles(collection_id);
+        const normalized = files.map((f) => ({
+          name: f.name || f.NAME || "Unnamed",
+          max_id: f.max_id || f.MAX_SIZE || 0,
+          docId: f.$id || f.docId || null,
+        }));
+        setUploadedFiles(normalized);
+      } catch (error) {
+        console.error("Fetch files error:", error);
+      } finally {
+        setLoadingFiles(false);
+      }
+    };
+    loadFiles();
+  }, [collection_id]);
 
   return (
     <div className="pdf-container">
@@ -152,31 +155,26 @@ const PDFManager = () => {
       {status && <p className="status-msg">{status}</p>}
 
       <div className="uploaded-list">
-        {uploadedFiles.length === 0 && <p>No files found.</p>}
-        {uploadedFiles.map((file, idx) => (
-          <div key={idx} className="file-card">
-            <div className="file-info">
-              <strong>{file.name}</strong>
-              <p>max_id: {file.max_id}</p>
+        {loadingFiles ? (
+          <p>Loading files...</p>
+        ) : uploadedFiles.length === 0 ? (
+          <p>No files found.</p>
+        ) : (
+          uploadedFiles.map((file, idx) => (
+            <div key={idx} className="file-card">
+              <div className="file-info">
+                <strong>{file.name}</strong>
+                <p>max_id: {file.max_id}</p>
+              </div>
+              <button
+                className="btn-delete"
+                onClick={() => handleDelete(file.name, file.max_id)}
+              >
+                Delete
+              </button>
             </div>
-            <button
-              className="btn-delete"
-              onClick={() => handleDelete(file.name, file.max_id)}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className="pagination-controls">
-        <button onClick={handlePrevPage} disabled={page === 0}>
-          ◀ Prev
-        </button>
-        <span style={{ margin: "0 10px" }}>Page {page + 1}</span>
-        <button onClick={handleNextPage} disabled={!hasMore}>
-          Next ▶
-        </button>
+          ))
+        )}
       </div>
     </div>
   );

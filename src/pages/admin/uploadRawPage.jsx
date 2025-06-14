@@ -81,7 +81,7 @@ const PDFManager = () => {
     setStatus("⏳ Uploading...");
 
     try {
-      const response = await axios.post(`${server}/upload/json/qna`, formData, {
+      const response = await axios.post(`${server}/upload/raw`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -131,7 +131,7 @@ const PDFManager = () => {
 
   return (
     <div className="pdf-container">
-      <h2>📄 JSON Data Upload</h2>
+      <h2>📄 raw Data Upload</h2>
 
       <div className="upload-box">
         <input

@@ -1,9 +1,15 @@
 import Index from './pages/homePage.jsx';
 import ChatPage from './pages/chatPage/chatPage.jsx';
-import Admin from './pages/AdminPage.jsx';
-import AdminUploadRaw from './pages/admin/uploadRaw.jsx';
-import UploadJsonQnaPage from './pages/admin/uploadQnaPage.jsx';
-import AdminUploadLlama from './pages/admin/uploadDocGemini.jsx';
+// import Admin from './pages/AdminPage.jsx';
+
+import AdminMainPage from './pages/admin/mainPage.jsx';
+import AdminFolderPage from './pages/admin/subFolderPage.jsx';
+
+import AdminUploadPdfPage from './pages/admin/uploadPdfPage.jsx';
+import AdminUploadRawPage from './pages/admin/uploadRawPage.jsx';
+import AdminUploadQnaPage from './pages/admin/uploadQnaPage.jsx';
+
+
 import AdminLogin from './pages/AdminLogin.jsx';
 import PrivateRoute from './secure/privateRoute.jsx';
 import AdminPrivateRoute from './secure/adminPrivateRoute.jsx';
@@ -14,7 +20,11 @@ const App = () => {
     <Router>
       <div className="App">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Index />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* User Routes */}
           <Route
             path="/chat"
             element={
@@ -23,44 +33,79 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          {/* <Route
-            path="/admin"
-            element={
-              <AdminPrivateRoute>
-                <Admin />
-              </AdminPrivateRoute>
-            }
-          /> */}
+
+
+
+
+
+          {/* Admin Routes */}
           <Route
-            path="/admin/upload/raw/iit-ism-llama-text-embed-v2-index"
+            path="/admin/main"
             element={
               <AdminPrivateRoute>
-                <AdminUploadRaw />
+                <AdminMainPage />
               </AdminPrivateRoute>
             }
           />
-           <Route
-            path="/admin/upload/json/iit-ism-llama-text-embed-v2-index"
-            element={
-              <AdminPrivateRoute>
-                <UploadJsonQnaPage />
-              </AdminPrivateRoute>
-            }
-          />
+
+
+
+          
           <Route
-            path="/admin/upload/iit-ism-llama-text-embed-v2-index"
+            path="/admin/pdf/:folder_id"
             element={
               <AdminPrivateRoute>
-                <AdminUploadLlama />
+                 <AdminFolderPage />
               </AdminPrivateRoute>
             }
           />
           <Route
-            path="/admin/login"
+            path="/admin/qna/:folder_id"
             element={
-                <AdminLogin />
+              <AdminPrivateRoute>
+                 <AdminFolderPage />
+              </AdminPrivateRoute>
             }
           />
+          <Route
+            path="/admin/raw/:folder_id"
+            element={
+              <AdminPrivateRoute>
+                 <AdminFolderPage />
+              </AdminPrivateRoute>
+            }
+          />
+
+
+
+
+
+
+          <Route
+            path="/admin/pdf/subfolder/:folder_id"
+            element={
+              <AdminPrivateRoute>
+                <AdminUploadPdfPage/>
+              </AdminPrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/raw/subfolder/:folder_id"
+            element={
+              <AdminPrivateRoute>
+                <AdminUploadRawPage />
+              </AdminPrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/qna/subfolder/:folder_id"
+            element={
+              <AdminPrivateRoute>
+                <AdminUploadQnaPage />
+              </AdminPrivateRoute>
+            }
+          />
+          
         </Routes>
       </div>
     </Router>
@@ -68,5 +113,3 @@ const App = () => {
 };
 
 export default App;
-
-
