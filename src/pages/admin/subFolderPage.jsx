@@ -4,8 +4,11 @@ import { fetchDocument } from "../../../appwrite/admin/fetchDocument.js";
 import "../../styles/admin/folderPage.css";
 
 // Use server constant
+
 const server = "https://bckd.onrender.com";
 // const server = "http://localhost:8000";
+const ITEMS_PER_PAGE = 5;
+
 
 
 

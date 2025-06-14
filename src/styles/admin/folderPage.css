@@ -1,70 +1,74 @@
-.folder-container {
+.folder-page-container {
   padding: 20px;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.btn-create {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 14px;
+.folder-page-title {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.create-folder-btn {
   cursor: pointer;
-  margin-bottom: 16px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  background-color: #2ecc71;
+  color: white;
   transition: background-color 0.3s ease;
 }
 
-.btn-create:disabled {
-  background-color: #a5d6a7;
-  cursor: not-allowed;
+.create-folder-btn:hover {
+  background-color: #27ae60;
 }
 
 .folder-list {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .folder-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #f9f9f9;
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  border: 1px solid #ddd;
+  justify-content: space-between;
+  background-color: #f4f6f8;
+  padding: 12px 20px;
+  margin-bottom: 10px;
   border-radius: 8px;
-  transition: background 0.3s ease;
-}
-
-.folder-item:hover {
-  background: #eef6ff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .folder-link {
-  text-decoration: none;
+  font-size: 16px;
+  color: #3498db;
   font-weight: 500;
-  color: #2a7ae2;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.btn-delete {
-  background-color: #e53935;
+.folder-link:hover {
+  color: #21618c;
+}
+
+.delete-folder-btn {
+  background-color: #e74c3c;
   color: white;
   border: none;
+  border-radius: 6px;
   padding: 6px 10px;
-  border-radius: 5px;
-  font-size: 13px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-left: 10px;
 }
 
-.btn-delete:disabled {
-  background-color: #ef9a9a;
-  cursor: not-allowed;
+.delete-folder-btn:hover {
+  background-color: #c0392b;
 }
 
-.info-text {
-  color: #666;
+.status-text {
+  color: #7f8c8d;
   margin-top: 10px;
 }
