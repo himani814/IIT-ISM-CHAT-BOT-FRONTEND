@@ -15,7 +15,7 @@ const AdminLogin = () => {
     // Dummy validation (replace with real backend call)
     if (adminId === 'admin' && password === 'password123') {
       Cookies.set('adminid', adminId, { expires: 1 });
-      navigate('/admin/upload/iit-ism-llama-text-embed-v2-index');
+      navigate('/admin/main');
     } else {
       setError('Invalid admin ID or password.');
     }
