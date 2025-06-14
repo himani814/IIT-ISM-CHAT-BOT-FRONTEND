@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {
-  fetchAllFiles,
-} from "../../../appwrite/admin/fetch_from_appwrite.js";
+import { fetchAllFiles } from "../../../appwrite/admin/fetch_from_appwrite.js";
 import "../../styles/adminPage.css";
 
-
 const server = "https://bckd.onrender.com";
-// const server="http://localhost:8000";
+// const server = "http://localhost:8000";
+
 
 
 const PDFManager = () => {
@@ -21,6 +19,7 @@ const PDFManager = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(true);
+  const [deletingId, setDeletingId] = useState(null); // ✅ define deletingId
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -51,16 +50,13 @@ const PDFManager = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      const max_id = response.data.max_id || 0;
-      const metaResponse = await storeFileMeta(name, max_id);
-
-      const newFile = {
-        name,
-        max_id,
-        docId: metaResponse.$id,
+      const uploaded = {
+        name: name,
+        max_id: response.data?.max_id || 0,
+        docId: response.data?.docId || null,
       };
 
-      setUploadedFiles((prev) => [newFile, ...prev]);
+      setUploadedFiles((prev) => [uploaded, ...prev]);
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
       setFile(null);
@@ -72,29 +68,28 @@ const PDFManager = () => {
     }
   };
 
-  const handleDelete = async (name, max_id) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete "${name}"?`);
-    if (!confirmDelete) return;
+  const handleDelete = async (name, max_id, docId) => {
+    if (!window.confirm(`Are you sure you want to delete "${name}"?`)) return;
+
+    setDeletingId(docId);
+    setStatus(`🗑️ Deleting "${name}"...`);
 
     try {
-      await axios.post(`${server}/delete`, {
-        name,
-        max_id: parseInt(max_id),
-      });
+      const form = new FormData();
+      form.append("file_name", name);
+      form.append("max_id", parseInt(max_id));
+      form.append("doc_id", docId);
+      form.append("collection_id", collection_id);
 
-      const fileToDelete = uploadedFiles.find(
-        (f) => f.name === name || f.NAME === name
-      );
+      await axios.post(`${server}/delete/document/delete`, form);
 
-      if (fileToDelete?.docId) {
-        await deleteFileMeta(fileToDelete.docId);
-      }
-
-      setUploadedFiles((prev) => prev.filter((f) => f.name !== name && f.NAME !== name));
-      setStatus("🗑️ File deleted from backend and database.");
+      setUploadedFiles((prev) => prev.filter((file) => file.docId !== docId));
+      setStatus(`✅ "${name}" deleted successfully.`);
     } catch (error) {
-      console.error("Delete error:", error);
-      setStatus("❌ Delete failed.");
+      console.error("Delete failed:", error);
+      setStatus(`❌ Failed to delete "${name}".`);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -115,6 +110,7 @@ const PDFManager = () => {
         setLoadingFiles(false);
       }
     };
+
     loadFiles();
   }, [collection_id]);
 
@@ -147,7 +143,11 @@ const PDFManager = () => {
           className="input-file"
         />
 
-        <button onClick={handleUpload} disabled={loading} className="btn-upload">
+        <button
+          onClick={handleUpload}
+          disabled={loading}
+          className="btn-upload"
+        >
           {loading ? "Uploading..." : "Upload"}
         </button>
       </div>
@@ -161,16 +161,19 @@ const PDFManager = () => {
           <p>No files found.</p>
         ) : (
           uploadedFiles.map((file, idx) => (
-            <div key={idx} className="file-card">
+            <div key={file.docId || idx} className="file-card">
               <div className="file-info">
                 <strong>{file.name}</strong>
                 <p>max_id: {file.max_id}</p>
               </div>
               <button
                 className="btn-delete"
-                onClick={() => handleDelete(file.name, file.max_id)}
+                onClick={() =>
+                  handleDelete(file.name, file.max_id, file.docId)
+                }
+                disabled={deletingId === file.docId}
               >
-                Delete
+                {deletingId === file.docId ? "Deleting..." : "Delete"}
               </button>
             </div>
           ))

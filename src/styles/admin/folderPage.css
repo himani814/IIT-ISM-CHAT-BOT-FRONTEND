@@ -1,0 +1,70 @@
+.folder-container {
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.btn-create {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-create:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.folder-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.folder-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.folder-item:hover {
+  background: #eef6ff;
+}
+
+.folder-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: #2a7ae2;
+}
+
+.btn-delete {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:disabled {
+  background-color: #ef9a9a;
+  cursor: not-allowed;
+}
+
+.info-text {
+  color: #666;
+  margin-top: 10px;
+}
