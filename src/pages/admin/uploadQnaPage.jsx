@@ -16,25 +16,29 @@ const PDFManager = () => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
-  const [fetchingFiles, setFetchingFiles] = useState(true);
+  const [fetchingFiles, setFetchingFiles] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
     loadFiles();
-  }, [collection_id, page]); // Added `page` here
+  }, [collection_id, page]);
 
   const loadFiles = async () => {
     setFetchingFiles(true);
     try {
       const offset = page * ITEMS_PER_PAGE;
-      const files = await fetchAllFiles(collection_id, offset, ITEMS_PER_PAGE); // pass offset + limit
+      const files = await fetchAllFiles(collection_id, offset, ITEMS_PER_PAGE);
+
       const normalized = files.map((f) => ({
         name: f.name || f.NAME,
         max_id: parseInt(f.max_id || f.MAX_SIZE),
         docId: f.docId || f.$id,
       }));
+
       setUploadedFiles(normalized);
+      setHasMore(files.length === ITEMS_PER_PAGE); // enable/disable Next
     } catch (error) {
       console.error("Fetch files error:", error);
       setStatus("❌ Failed to fetch files.");
@@ -52,7 +56,7 @@ const PDFManager = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type === "application/json") {
+    if (selectedFile?.type === "application/json") {
       setFile(selectedFile);
       setStatus("");
     } else {
@@ -70,7 +74,7 @@ const PDFManager = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("file_name", name);
+    formData.append("filename", name);
     formData.append("collection_id", collection_id);
 
     setLoading(true);
@@ -91,7 +95,7 @@ const PDFManager = () => {
       setStatus("✅ Upload successful and metadata saved.");
       setName("");
       setFile(null);
-      document.querySelector(".input-file").value = null;
+      document.querySelector(".input-file").value = "";
     } catch (error) {
       console.error("Upload or metadata error:", error);
       setStatus("❌ Upload or saving metadata failed.");
@@ -109,7 +113,7 @@ const PDFManager = () => {
     try {
       const form = new FormData();
       form.append("file_name", name);
-      form.append("max_id", parseInt(max_id));
+      form.append("max_id", max_id);
       form.append("doc_id", docId);
       form.append("collection_id", collection_id);
 
@@ -187,10 +191,7 @@ const PDFManager = () => {
           ◀ Prev
         </button>
         <span style={{ margin: "0 10px" }}>Page {page + 1}</span>
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={uploadedFiles.length < ITEMS_PER_PAGE}
-        >
+        <button onClick={() => setPage(page + 1)} disabled={!hasMore}>
           Next ▶
         </button>
       </div>
