@@ -4,8 +4,8 @@ import axios from "axios";
 import { fetchAllFiles } from "../../../appwrite/admin/fetch_from_appwrite.js";
 import "../../styles/adminPage.css";
 
-// const server = "https://bckd.onrender.com";
-const server = "http://localhost:8000";
+const server = "https://bckd.onrender.com";
+// const server = "http://localhost:8000";
 const ITEMS_PER_PAGE = 5;
 
 const PDFManager = () => {
