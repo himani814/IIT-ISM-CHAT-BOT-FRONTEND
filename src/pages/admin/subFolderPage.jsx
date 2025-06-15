@@ -11,17 +11,21 @@ const FolderPage = () => {
   const location = useLocation();
 
   const [folders, setFolders] = useState([]);
+  const [totalFolders, setTotalFolders] = useState(0);
   const [loading, setLoading] = useState(false);
   const [creating, setCreating] = useState(false);
   const [deletingFolderId, setDeletingFolderId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const loadFolders = async () => {
+  const loadFolders = async (page = 1) => {
     setLoading(true);
     try {
-      const data = await fetchDocument(collection_id);
-      setFolders(data || []);
-      setCurrentPage(1); // reset to first page
+      const offset = (page - 1) * ITEMS_PER_PAGE;
+      const data = await fetchDocument(collection_id, offset, ITEMS_PER_PAGE);
+
+      setFolders(data.documents || []);
+      setTotalFolders(data.total || 0);
+      setCurrentPage(data.page || page);
     } catch (error) {
       console.error("Error loading folders:", error);
     } finally {
@@ -47,7 +51,7 @@ const FolderPage = () => {
       });
 
       if (!res.ok) throw new Error("Folder creation failed");
-      await loadFolders();
+      await loadFolders(currentPage);
     } catch (error) {
       console.error("Error creating folder:", error);
     } finally {
@@ -72,7 +76,7 @@ const FolderPage = () => {
       });
 
       if (!res.ok) throw new Error("Folder deletion failed");
-      await loadFolders();
+      await loadFolders(currentPage);
     } catch (error) {
       console.error("Error deleting folder:", error);
     } finally {
@@ -89,22 +93,18 @@ const FolderPage = () => {
     return `/admin/subfolder/${id}`;
   };
 
-  const totalPages = Math.ceil(folders.length / ITEMS_PER_PAGE);
-  const paginatedFolders = folders.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const totalPages = Math.ceil(totalFolders / ITEMS_PER_PAGE);
 
   const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    if (currentPage < totalPages) loadFolders(currentPage + 1);
   };
 
   const goToPrevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    if (currentPage > 1) loadFolders(currentPage - 1);
   };
 
   useEffect(() => {
-    if (collection_id) loadFolders();
+    if (collection_id) loadFolders(1);
   }, [collection_id]);
 
   return (
@@ -126,7 +126,7 @@ const FolderPage = () => {
       ) : (
         <>
           <ul className="folder-list">
-            {paginatedFolders.map((folder) => (
+            {folders.map((folder) => (
               <li key={folder.$id} className="folder-item">
                 <Link to={getRoutePath(folder)} className="folder-link">
                   📂 {folder.folder_name}

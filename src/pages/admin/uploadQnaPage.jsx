@@ -22,12 +22,13 @@ const PDFManager = () => {
 
   useEffect(() => {
     loadFiles();
-  }, [collection_id]);
+  }, [collection_id, page]); // Added `page` here
 
   const loadFiles = async () => {
     setFetchingFiles(true);
     try {
-      const files = await fetchAllFiles(collection_id);
+      const offset = page * ITEMS_PER_PAGE;
+      const files = await fetchAllFiles(collection_id, offset, ITEMS_PER_PAGE); // pass offset + limit
       const normalized = files.map((f) => ({
         name: f.name || f.NAME,
         max_id: parseInt(f.max_id || f.MAX_SIZE),
@@ -48,11 +49,6 @@ const PDFManager = () => {
       return () => clearTimeout(timeout);
     }
   }, [status]);
-
-  const paginatedFiles = uploadedFiles.slice(
-    page * ITEMS_PER_PAGE,
-    (page + 1) * ITEMS_PER_PAGE
-  );
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -113,7 +109,7 @@ const PDFManager = () => {
     try {
       const form = new FormData();
       form.append("file_name", name);
-      form.append("max_id", parseInt(max_id)); // Ensure integer
+      form.append("max_id", parseInt(max_id));
       form.append("doc_id", docId);
       form.append("collection_id", collection_id);
 
@@ -163,10 +159,10 @@ const PDFManager = () => {
       <div className="uploaded-list">
         {fetchingFiles ? (
           <p>Loading files...</p>
-        ) : paginatedFiles.length === 0 ? (
+        ) : uploadedFiles.length === 0 ? (
           <p>No uploaded files found.</p>
         ) : (
-          paginatedFiles.map((file) => (
+          uploadedFiles.map((file) => (
             <div key={file.docId} className="file-card">
               <div className="file-info">
                 <strong>{file.name}</strong>
@@ -174,7 +170,9 @@ const PDFManager = () => {
               </div>
               <button
                 className="btn-delete"
-                onClick={() => handleDelete(file.name, file.max_id, file.docId)}
+                onClick={() =>
+                  handleDelete(file.name, file.max_id, file.docId)
+                }
                 disabled={loading || deletingId === file.docId}
               >
                 {deletingId === file.docId ? "🗑️ Deleting..." : "Delete"}
@@ -191,7 +189,7 @@ const PDFManager = () => {
         <span style={{ margin: "0 10px" }}>Page {page + 1}</span>
         <button
           onClick={() => setPage(page + 1)}
-          disabled={(page + 1) * ITEMS_PER_PAGE >= uploadedFiles.length}
+          disabled={uploadedFiles.length < ITEMS_PER_PAGE}
         >
           Next ▶
         </button>

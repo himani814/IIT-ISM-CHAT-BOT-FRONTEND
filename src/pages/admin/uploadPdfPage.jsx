@@ -5,9 +5,7 @@ import { fetchAllFiles } from "../../../appwrite/admin/fetch_from_appwrite.js";
 import "../../styles/adminPage.css";
 
 const server = "https://bckd.onrender.com";
-// const server = "http://localhost:8000";
-
-
+const ITEMS_PER_PAGE = 10;
 
 const PDFManager = () => {
   const { folder_id: collection_id } = useParams();
@@ -19,7 +17,9 @@ const PDFManager = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(true);
-  const [deletingId, setDeletingId] = useState(null); // ✅ define deletingId
+  const [deletingId, setDeletingId] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -93,25 +93,27 @@ const PDFManager = () => {
     }
   };
 
-  useEffect(() => {
-    const loadFiles = async () => {
-      setLoadingFiles(true);
-      try {
-        const files = await fetchAllFiles(collection_id);
-        const normalized = files.map((f) => ({
-          name: f.name || f.NAME || "Unnamed",
-          max_id: f.max_id || f.MAX_SIZE || 0,
-          docId: f.$id || f.docId || null,
-        }));
-        setUploadedFiles(normalized);
-      } catch (error) {
-        console.error("Fetch files error:", error);
-      } finally {
-        setLoadingFiles(false);
-      }
-    };
+  const loadFiles = async (page = 1) => {
+    setLoadingFiles(true);
+    try {
+      const offset = (page - 1) * ITEMS_PER_PAGE;
+      const files = await fetchAllFiles(collection_id, offset, ITEMS_PER_PAGE);
+      const normalized = files.map((f) => ({
+        name: f.name || f.NAME || "Unnamed",
+        max_id: f.max_id || f.MAX_SIZE || 0,
+        docId: f.$id || f.docId || null,
+      }));
+      setUploadedFiles(normalized);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error("Fetch files error:", error);
+    } finally {
+      setLoadingFiles(false);
+    }
+  };
 
-    loadFiles();
+  useEffect(() => {
+    if (collection_id) loadFiles(1);
   }, [collection_id]);
 
   return (
@@ -178,6 +180,23 @@ const PDFManager = () => {
             </div>
           ))
         )}
+      </div>
+
+      {/* ✅ Pagination Controls */}
+      <div className="pagination-controls">
+        <button
+          onClick={() => loadFiles(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          ⬅️ Previous
+        </button>
+        <span>Page {currentPage}</span>
+        <button
+          onClick={() => loadFiles(currentPage + 1)}
+          disabled={uploadedFiles.length < ITEMS_PER_PAGE}
+        >
+          Next ➡️
+        </button>
       </div>
     </div>
   );

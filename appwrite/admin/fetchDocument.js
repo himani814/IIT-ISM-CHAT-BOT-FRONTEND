@@ -10,8 +10,7 @@ const databases = new Databases(client);
 export { account, databases };
 
 const DATABASE_ID = "6836c51200377ed9fbdd";
-
-// ✅ Fetch all folders from a given collection
+// fetchDocument.js
 export const fetchDocument = async (collectionId, offset = 0, limit = 10) => {
   try {
     const response = await databases.listDocuments(DATABASE_ID, collectionId, [
@@ -19,14 +18,19 @@ export const fetchDocument = async (collectionId, offset = 0, limit = 10) => {
       Query.offset(offset),
       Query.limit(limit),
     ]);
-    console.log(response)
-    return response.documents;
+
+    const currentPage = Math.floor(offset / limit) + 1;
+
+    return {
+      documents: response.documents,
+      total: response.total,
+      page: currentPage,
+    };
   } catch (error) {
     console.error("Fetch Error:", error);
     throw error;
   }
 };
-
 
 
 
