@@ -172,10 +172,9 @@ function Home() {
           </div>
 
           <p className={`home-left-3-${theme}`}>
-            Meet ISM Buddy – your friendly chat assistant from IIT Dhanbad!
-            Whether you're a student navigating college life, curious about
-            academics, or just looking for quick answers, ISM Buddy is here to
-            help 24/7.
+            Namaskar! 🙏🏻 I'm ISM Buddy, your ultimate guide to IIT (ISM) Dhanbad-India's premier Institution of Eminence in mining, tech, and beyond! 🚀 Whether you're a future Einstein of Engineering, a Corporate Titan, or a Research Maverick, ISM is your launchpad to greatness!
+            Ask me anything from stellar placements (Google, Microsoft, JSW!) to cutting-edge research, vibrant campus life, or why our alumni network rules the world! I'll give you crisp, electrifying answers that'll make you go—"Yep, ISM is MY kind of place!" 😎
+            Fire away your questions!
           </p>
 
           <div className={`home-left-4-${theme}`}>
