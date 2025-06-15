@@ -3,28 +3,25 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { fetchDocument } from "../../../appwrite/admin/fetchDocument.js";
 import "../../styles/admin/folderPage.css";
 
-// Use server constant
-
 const server = "https://bckd.onrender.com";
-// const server = "http://localhost:8000";
-const ITEMS_PER_PAGE = 5;
-
-
-
+const ITEMS_PER_PAGE = 7;
 
 const FolderPage = () => {
   const { folder_id: collection_id } = useParams();
   const location = useLocation();
+
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [creating, setCreating] = useState(false);
   const [deletingFolderId, setDeletingFolderId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const loadFolders = async () => {
     setLoading(true);
     try {
       const data = await fetchDocument(collection_id);
       setFolders(data || []);
+      setCurrentPage(1); // reset to first page
     } catch (error) {
       console.error("Error loading folders:", error);
     } finally {
@@ -92,6 +89,20 @@ const FolderPage = () => {
     return `/admin/subfolder/${id}`;
   };
 
+  const totalPages = Math.ceil(folders.length / ITEMS_PER_PAGE);
+  const paginatedFolders = folders.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
   useEffect(() => {
     if (collection_id) loadFolders();
   }, [collection_id]);
@@ -113,22 +124,36 @@ const FolderPage = () => {
       ) : folders.length === 0 ? (
         <p className="info-text">No folders found.</p>
       ) : (
-        <ul className="folder-list">
-          {folders.map((folder) => (
-            <li key={folder.$id} className="folder-item">
-              <Link to={getRoutePath(folder)} className="folder-link">
-                📂 {folder.folder_name}
-              </Link>
-              <button
-                className="btn-delete"
-                onClick={() => handleDeleteFolder(folder)}
-                disabled={deletingFolderId === folder.$id}
-              >
-                {deletingFolderId === folder.$id ? "Deleting..." : "❌ Delete"}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="folder-list">
+            {paginatedFolders.map((folder) => (
+              <li key={folder.$id} className="folder-item">
+                <Link to={getRoutePath(folder)} className="folder-link">
+                  📂 {folder.folder_name}
+                </Link>
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDeleteFolder(folder)}
+                  disabled={deletingFolderId === folder.$id}
+                >
+                  {deletingFolderId === folder.$id ? "Deleting..." : "❌ Delete"}
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="pagination-controls">
+            <button onClick={goToPrevPage} disabled={currentPage === 1}>
+              ⬅️ Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+              Next ➡️
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
